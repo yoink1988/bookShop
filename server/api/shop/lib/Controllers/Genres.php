@@ -14,8 +14,16 @@ class Genres
 	{
 		$this->model = new \Models\Genres();
 	}
+    
+    public function getGenres($params = null)
+    {
+        $this->model->getGenres($params = null);
+    }
 
-	public function postGenres(){}
+    public function postGenres()
+    {
+        
+    }
 	public function putGenres(){}
 	public function deleteGenres(){}
 }

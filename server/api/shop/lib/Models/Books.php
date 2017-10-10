@@ -15,8 +15,11 @@ class Books
 	}
 	public function getBooks($params = null)
 	{
-		//validate Params
-
+    
+        if($params['id'])
+        {
+            $id = $this->db->clearString($params['id']);
+        }
 		
 		$query = \database\QSelect::getInstance()->setColumns('b.id as id,'
 															. ' b.title,'
@@ -27,7 +30,7 @@ class Books
 														. 'on b.id = ba.id_book '
 														. 'left join authors a '
 														. 'on ba.id_author = a.id')
-//														->setWhere('b.id = 2')
+														->setWhere("b.id = $id")
 														->setOrder('b.id');
 		$result = $this->db->select($query);
 		var_dump($result);
@@ -35,14 +38,6 @@ class Books
 //		var_dump(json_encode($res));
 //		if($params)
 	}
-//	public function uniq(array $result)
-//	{
-//		$res = array();
-//		foreach ($result as $book)
-//		{
-//
-//		}
-//	}
 
 	protected function getUniqueData(array $dbResult)
 	{

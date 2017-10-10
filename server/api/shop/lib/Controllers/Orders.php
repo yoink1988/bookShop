@@ -1,5 +1,5 @@
 <?php
-
+namespace Controllers;
 /**
  * Description of Orders
  *
@@ -7,6 +7,15 @@
  */
 class Orders
 {
+    private $model;
+    
+    public function __construct()
+    {
+        $this->model = new \Models\Orders();
+    }
 
-	public function __construct();
+    public function getOrders($params=null)
+    {
+        $this->model->getOrders($params=null);
+    }
 }

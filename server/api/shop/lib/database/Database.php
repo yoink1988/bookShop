@@ -78,6 +78,11 @@ class Database
 			return "$errInfo[2]";
 		}
 		return '';
-	}
+    }
+
+    public function clearString($str)
+    {
+        return $this->pdo->quote($str);
+    }
 	
 }

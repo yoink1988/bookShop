@@ -7,6 +7,15 @@
  */
 class Orders
 {
+    private $db;
+    
+    public function __construct()
+    {
+        $this->db = \database\Database::getInstance();
+    }
 
-	public function __construct();
+    public function getOrders($params=null)
+    {
+//        $query = \database\QSelect::getInstance()->setColumns('id, ')
+    }
 }

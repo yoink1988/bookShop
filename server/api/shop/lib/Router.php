@@ -19,8 +19,8 @@ class Router
 		echo '<pre>';
 		$this->parseUrl();
 
-		if( is_readable(ROOT_DIR.$this->class.'.php'))
-		{
+//		if( is_readable(ROOT_DIR.$this->class.'.php'))
+//		{
 			$controller = new $this->class;
 			switch ($this->reqMeth)
             {
@@ -37,14 +37,14 @@ class Router
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 default:
-					echo 'Bad Request';
+					echo 'Bsssad Request';
 //                    return false;
             }
-		}
-		else
-		{
-			throw new Exception('Bad Request');
-		}
+//		}
+//		else
+//		{
+//			throw new Exception($this->class);
+//		}
 
 	}
 

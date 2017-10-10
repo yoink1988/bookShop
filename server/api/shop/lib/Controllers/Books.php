@@ -14,7 +14,7 @@ class Books
 	}
 
 	public function getBooks($params=null)
-	{
+    {
 		$this->model->getBooks($params);
 //		echo 'getBooks';
 	}

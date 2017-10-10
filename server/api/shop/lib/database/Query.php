@@ -53,7 +53,7 @@ abstract class Query
 	}
 	public function setParams(array $params)
 	{
-		$this->limit = $params;
+		$this->params = $params;
 		return $this;
 	}
 

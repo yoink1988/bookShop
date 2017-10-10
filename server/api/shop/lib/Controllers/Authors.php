@@ -18,10 +18,12 @@ class Authors
 	public function getAuthors($params=null)
 	{
 		$this->model->getAuthors($params);
-//		echo 'getBooks';
 	}
 
-	public function postAuthors(){}
+    public function postAuthors()
+    {
+        
+    }
 	public function putAuthors(){}
 	public function deleteAuthors(){}
 }
