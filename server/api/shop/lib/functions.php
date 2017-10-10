@@ -12,5 +12,11 @@ function __autoload($className)
 	{
 		var_dump($className);
 	}
-//	include_once ROOT_DIR.'/classes/'.$classname;
+}
+
+function dump($var)
+{
+	echo '<pre>';
+	var_dump($var);
+	echo '</pre>';
 }
