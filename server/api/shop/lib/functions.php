@@ -10,7 +10,7 @@ function __autoload($className)
 	}
 	else
 	{
-		var_dump($className);
+//		var_dump($className);
 	}
 }
 

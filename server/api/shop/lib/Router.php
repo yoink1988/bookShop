@@ -16,11 +16,11 @@ class Router
 
 	public function run()
 	{
-		echo '<pre>';
+//		echo '<pre>';
 		$this->parseUrl();
 
-//		if( is_readable(ROOT_DIR.$this->class.'.php'))
-//		{
+		if(class_exists($this->class))
+		{
 			$controller = new $this->class;
 			switch ($this->reqMeth)
             {
@@ -28,9 +28,11 @@ class Router
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'POST':
+					$this->args = $this->getPostArgs();
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'PUT':
+					$this->args = $this->getPutArgs();
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'DELETE':
@@ -38,13 +40,13 @@ class Router
                     break;
                 default:
 					echo 'Bsssad Request';
-//                    return false;
+                    return false;
             }
-//		}
-//		else
-//		{
-//			throw new Exception($this->class);
-//		}
+		}
+		else
+		{
+			throw new Exception($this->class);
+		}
 
 	}
 
@@ -56,7 +58,7 @@ class Router
         }
 		else
 		{
-			throw new Exception('Bad operation');
+			throw new Exception('no func','405');
 		}
 	}
 
@@ -101,4 +103,16 @@ class Router
 			}
 		}
 	}
+	private function getPostArgs()
+    {
+        return $_POST;
+    }
+	private function getPutArgs()
+    {
+//        return json_decode(file_get_contents("php://input"), true);
+
+		$tmp = array();
+       parse_str(file_get_contents("php://input"), $tmp);
+	   return $tmp;
+    }
 }

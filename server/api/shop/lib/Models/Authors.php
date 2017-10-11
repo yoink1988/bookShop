@@ -15,13 +15,42 @@ class Authors
 		$this->db = \database\Database::getInstance();
 	}
 
-    public function getAuthors()
+    public function getAuthors($id=null)
     {
-        $query = \database\QSelect::getInstance()->setColumns('id, name')
-            ->setTable('authors');
-
+		$res = array();
+		$query = \database\QSelect::getInstance()->setColumns('id, name')
+												->setTable('authors');
+		if($id)
+		{
+			$id = $this->db->clearString($id);
+			$query->setWhere("id = $id");
+		}
         $res = $this->db->select($query);
-        dump($res);
+		return $res;
     }
+
+	public function addAuthor($params)
+	{
+		$query = \database\QInsert::getInstance()->setTable('authors')
+												->setParams($params);
+		$res = $this->db->insert($query);
+		dump($res);
+	}
+
+	public function updateAuthor($id, $params)
+	{
+		$query = \database\QUpdate::getInstance()->setTable('authors')
+												->setParams($params)
+												->setWhere("id = $id");
+		$res = $this->db->update($query);
+		var_dump($res);
+	}
+	public function deleteAuthor($id)
+	{
+		$query = \database\QDelete::getInstance()->setTable('authors')
+												->setWhere("id = $id");
+		$res = $this->db->delete($query);
+		var_dump($res);
+	}
 
 }

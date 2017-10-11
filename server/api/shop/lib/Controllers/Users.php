@@ -17,6 +17,5 @@ class Users
     public function getUsers($params=null)
     {
         $this->model->getUsers($params=null);
-        
     }
 }

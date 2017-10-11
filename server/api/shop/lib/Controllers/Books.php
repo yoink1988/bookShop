@@ -11,18 +11,60 @@ class Books
 	public function __construct()
 	{
 		$this->model = new \Models\Books();
+
 	}
 
 	public function getBooks($params=null)
     {
-		$this->model->getBooks($params);
-//		echo 'getBooks';
+		$id = $params;
+		if(isset($params['id']))
+		{
+			$id = $params['id'];
+		}
+
+		$res = $this->model->getBooks($id);
+		if($res)
+		{
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse($res);
+		}
 	}
 	
 	public function postBooks($params)
 	{
-//		$this->model->addBook();
+		if(count($params) == 4)
+		{
+			$this->model->addBook($params);
+		}
+		else
+		{
+			throw new \Exception('not All Data in Post');
+		}
 	}
-	public function putBooks(){}
-	public function deleteBooks(){}
+
+	public function putBooks($params)
+	{
+		if(!empty($params['id']))
+		{
+			$id = array_shift($params);
+			$this->model->updateBook($id,$params);
+		}
+		else
+		{
+			throw new \Exception('net Id');
+		}
+
+	}
+	public function deleteBooks($params)
+	{
+		if(!empty($params['id']))
+		{
+			$id = $params['id'];
+			$this->model->deleteBook($id);
+		}
+		else
+		{
+			throw new \Exception('net Id -delete-');
+		}
+	}
 }

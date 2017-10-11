@@ -1,38 +1,38 @@
 <?php
-
+namespace database;
 /**
  * Description of QDelete
  *
  * @author yoink
  */
-class QDelete
+class QDelete extends \database\Query
 {
-	public static function instance()
+	public static function getInstance()
 	{
 		return new self();
 	}
 
-		//потестить как работает
-	public function getStringQuery()
+	
+	public function getQueryString()
 	{
-//		$query = '';
-//		$query .= 'delete from ' . "{$this->table} ";
-//
-//		if ($this->where)
-//		{
-//			$query .= " where {$this->where}";
-//		}
-//		else
-//		{
-//			//sorry no where - no delete
-//			return '';
-//		}
-//
-//		if ($this->limit)
-//		{
-//			$query .= " limit {$this->limit}";
-//		}
-//
-//		return $query;
+		$query = '';
+		$query .= 'delete from ' . "{$this->table} ";
+
+		if ($this->where)
+		{
+			$query .= " where {$this->where}";
+		}
+		else
+		{
+			//sorry no where - no delete
+			return '';
+		}
+
+		if ($this->limit)
+		{
+			$query .= " limit {$this->limit}";
+		}
+
+		return $query;
 	}
 }

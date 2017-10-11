@@ -55,18 +55,32 @@ class Database
 	
 	public function insert(\database\QInsert $query)
 	{
-		$res = $this->pdo->exec($query->getStringQuery());
+//				var_dump($query->getQueryString());
+//				exit();
+		$res = $this->pdo->exec($query->getQueryString());
 		return $res !== false;
 	}
 	
 	public function delete(\database\QDelete $query)
 	{
-
+		$res = $this->pdo->exec($query->getQueryString());
+		return $res !== false;
 	}
+
+
+	/**
+	 *
+	 * @param \database\QUpdate $query
+	 */
 	public function update(\database\QUpdate $query)
 	{
-
+//		var_dump($query->getQueryString());
+//		exit();
+		$res = $this->pdo->exec($query->getQueryString());
+		return $res !== false;
 	}
+
+
 
 	public function getError()
 	{
@@ -80,9 +94,24 @@ class Database
 		return '';
     }
 
+	/**
+	 *
+	 * @param  $str
+	 * @return $str
+	 */
     public function clearString($str)
     {
         return $this->pdo->quote($str);
     }
+
+	public function clearParams(array $params)
+	{
+		$cleared = [];
+		foreach ($params as $k => $v)
+		{
+			$cleared[$k] = $this->pdo->quote($v);
+		}
+		return $cleared;
+	}
 	
 }
