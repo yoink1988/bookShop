@@ -29,6 +29,8 @@ class Router
                     break;
                 case 'POST':
 					$this->args = $this->getPostArgs();
+
+//				file_put_contents('tempp.txt', print_r(file_get_contents("php://input"), true));
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'PUT':
@@ -105,14 +107,15 @@ class Router
 	}
 	private function getPostArgs()
     {
-        return $_POST;
+		return json_decode(file_get_contents("php://input"), true);
+//        return $_POST;
     }
 	private function getPutArgs()
     {
-//        return json_decode(file_get_contents("php://input"), true);
+        return json_decode(file_get_contents("php://input"), true);
 
-		$tmp = array();
-       parse_str(file_get_contents("php://input"), $tmp);
-	   return $tmp;
+//		$tmp = array();
+//       parse_str(file_get_contents("php://input"), $tmp);
+//	   return $tmp;
     }
 }

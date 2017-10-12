@@ -14,8 +14,14 @@ class Orders
         $this->model = new \Models\Orders();
     }
 
-    public function getOrders($params=null)
+    public function getOrders($params = null)
     {
-        $this->model->getOrders($params=null);
+        $this->model->getOrders($params = null);
     }
+
+    public function putOrders($params)
+    {
+        $this->model->getOrders($params);
+    }
+
 }

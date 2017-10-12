@@ -23,6 +23,7 @@ class Books
 		}
 
 		$res = $this->model->getBooks($id);
+//		var_dump($res);
 		if($res)
 		{
 			\Utils\Response::SuccessResponse(200);

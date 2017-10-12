@@ -21,7 +21,18 @@ class QSelect extends \database\Query
 		}
 		if($this->where)
 		{
-			$query .= "where {$this->where}";
+			if(is_string($this->where)){
+				$query .= "where {$this->where}";
+			}
+//			if(is_array($this->where))
+//			{
+//				$query .= "where ";
+//				foreach ($this->where as $k => $v)
+//				{
+//					$query .= "`{$k}` = '{$v}', ";
+//				}
+//				$query = substr($query, 0, -2);
+//			}
 		}
 		if($this->order)
 		{

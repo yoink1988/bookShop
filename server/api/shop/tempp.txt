@@ -1,1 +1,6 @@
-HTTP/1.0 200 OK
+Array
+(
+    [name] => qq
+    [login] => qq@qq.ru
+    [pass] => qq
+)
