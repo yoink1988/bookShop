@@ -11,7 +11,7 @@ try{
 
     header('Access-Control-Allow-Methods: PUT, POST, GET, DELETE');
     header('Access-Control-Allow-Headers: Authorization, Content-Type');
-	$router = new Router;
+    $router = new Router;
 	$router->run();
 }
 
