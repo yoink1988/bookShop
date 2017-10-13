@@ -40,9 +40,9 @@ class Router
                 case 'DELETE':
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
-                default:
-					echo 'Bsssad Request';
-                    return false;
+//                default:
+//					echo 'Bsssad Request';
+//                    return false;
             }
 		}
 		else

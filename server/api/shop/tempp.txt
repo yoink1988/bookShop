@@ -1,6 +1,6 @@
 Array
 (
-    [name] => qq
-    [login] => qq@qq.ru
-    [pass] => qq
+    [name] => qwessss
+    [login] => ww@ww.ru
+    [pass] => qwe
 )

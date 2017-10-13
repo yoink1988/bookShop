@@ -14,14 +14,70 @@ class Auth
         $this->model = new \Models\Auth();
 	}
 
-	public function putAuth($params)
+	public function getAuth($params)
 	{
-		if((!empty($params['login']) && (!empty($params['pass']))))
+		if((!empty($params['id'])) && (!empty($params['hash'])))
 		{
+			$res = $this->model->checkAuth($params);
 
-			setcookie('qqqqqqqqq', 'qqqqqqqqqqqqqqq', time() + 60*60*24*30, '/');
-			echo'qweqwe';
+			if($res)
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse($res);
+			}
+		}
+		else
+		{
+			throw new \Exception('Ne Zaloginen',403);
 		}
 	}
+
+	public function putAuth($params)
+	{
+		if($params['login'] && $params['pass'])
+		{
+			if($this->model->checkLogData($params))
+			{
+
+				$params['hash'] = $this->generateHash(10);
+
+				$res = $this->model->login($params);
+				if($res)
+				{
+					\Utils\Response::SuccessResponse(200);
+					\Utils\Response::doResponse($res);
+				}
+			}
+			else
+			{
+				throw new \Exception('Incorrect Login Or Pass',402);;
+			}
+
+		}
+		else
+		{
+			echo 'bad data';
+		}
+	}
+
+//	public function deleteAuth($params)
+//	{
+//		if(!empty($params['id']))
+//		{
+//			$this->model->logOut($params['id']);
+//		}
+//	}
+
+	private function generateHash($length=10)
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRQSTUVWXYZ0123456789";
+        $code = "";
+        $clen = strlen($chars) - 1;
+        while (strlen($code) < $length)
+        {
+            $code .= $chars[mt_rand(0,$clen)];
+        }
+        return $code;
+    }
 
 }

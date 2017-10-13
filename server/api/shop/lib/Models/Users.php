@@ -24,10 +24,15 @@ class Users
 	
     public function addUser($params)
     {
+//		$params['hash'] = $this->generateHash();
         $query = \database\QInsert::getInstance()->setTable('users')
 												->setParams($params);
+
 		
         $res = $this->db->insert($query);
         dump($res);
     }
+
+
+
 }

@@ -50,10 +50,12 @@ class Books
         }
 
 		$res = $this->db->select($query);
+//				dump($res);
+	
 //		return $res;
 
 		return $this->uniq($res);
-//		var_dump($un);
+//	var_dump($un);
 	}
 	
 	public function addBook($params)
