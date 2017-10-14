@@ -51,10 +51,11 @@ class Books
 
 		$res = $this->db->select($query);
 //				dump($res);
-	
-//		return $res;
+		$res = $this->uniq($res);
+//		dump ($res);
+		return $res;
 
-		return $this->uniq($res);
+//		return $this->uniq($res);
 //	var_dump($un);
 	}
 	
@@ -86,83 +87,11 @@ class Books
 		var_dump($res);
 	}
 
-//	private function un($res)
-//	{
-//		$unic = array();
-//		foreach($res as $n => $book)
-//		if(!isset($unic[$n]))
-//		{
-//			$unic[$n] = $book;
-//		}
-//		else
-//		{
-//			$unic[$n] = array_merge($unic[$n], $book);
-//		}
-//		return $unic;
-//	}
-
-
-//	private function uniq($res)
-//	{
-//		$b=0;
-//		$unic = array();
-//		foreach($res as $book)
-//		{
-//
-//			if(!isset($unic[$b]))
-//			{
-//				$unic[$b] = $book;
-//				$a=0;
-//				$g=0;
-//
-//			}
-//			if($unic[$b]['id'] == $book['id'])
-//			{
-//
-//				if(!isset($unic[$b]['authors']) || !isset($unic[$b]['genres']))
-//				{
-//					$unic[$b]['authors'][$a]['id'] = $book['a_id'];
-//					$unic[$b]['authors'][$a]['name'] = $book['a_name'];
-//					unset($unic[$b]['a_id']);
-//					unset($unic[$b]['a_name']);
-//					$unic[$b]['genres'][$g]['id'] = $book['g_id'];
-//					$unic[$b]['genres'][$g]['name'] = $book['g_name'];
-//					unset($unic[$b]['g_id']);
-//					unset($unic[$b]['g_name']);
-//				}
-//				else
-//				{
-//					if($unic[$b]['authors'][$a]['id'] != $book['a_id'] )
-//					{
-//					$a++;
-//					$unic[$b]['authors'][$a]['id'] = $book['a_id'];
-//					$unic[$b]['authors'][$a]['name'] = $book['a_name'];
-//					}
-//					if($unic[$b]['genres'][$g]['id'] != $book['g_id'] )
-//					{
-//					$g++;
-//					$unic[$b]['genres'][$g]['id'] = $book['g_id'];
-//					$unic[$b]['genres'][$g]['name'] = $book['g_name'];
-//					}
-//
-//				}
-//
-//			}
-//			else
-//			{
-//				$b++;
-//
-//			}
-//
-//		}
-//		return $unic;
-//	}
 	private function uniq($res)
 	{
 		$unic = array();
 		foreach($res as $book)
 		{
-			$b=0;
 			if(!isset($unic[$book['id']]))
 			{
 				$unic[$book['id']] = $book;
@@ -181,7 +110,7 @@ class Books
 				}
 				else
 				{
-					if($unic[$book['id']]['authors'][$a]['id'] != $book['a_id'] )
+					if( !in_array( array("id" => "{$book['a_id']}", "name" => "{$book['a_name']}"), $unic[$book['id']]['authors']))
 					{
 					$a++;
 					$unic[$book['id']]['authors'][$a]['id'] = $book['a_id'];
@@ -198,7 +127,7 @@ class Books
 				}
 				else
 				{
-					if($unic[$book['id']]['genres'][$g]['id'] != $book['g_id'] )
+					if( !in_array( array("id" => "{$book['g_id']}", "name" => "{$book['g_name']}"), $unic[$book['id']]['genres']))
 					{
 					$g++;
 					$unic[$book['id']]['genres'][$g]['id'] = $book['g_id'];
@@ -207,13 +136,7 @@ class Books
 				}
 			}
 		}
-
-		$indexed = array();
-		foreach ($unic as $item)
-		{
-			$indexed[] = $item;
-		}
-		return $indexed;
+		return array_values($unic);
 	}
 
 
