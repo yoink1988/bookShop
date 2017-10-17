@@ -32,37 +32,54 @@ class Genres
 
     public function postGenres($params)
     {
-       if($params)
+       if(!empty($params['name']))
 		{
-			$res = $this->model->addGenre($params);
+			if($this->model->addGenre($params))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Added');
+			}
 		}
 		else
 		{
-			throw new \Exception('Net imeni janra');
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Check name field');
 		}
     }
 	public function putGenres($params)
 	{
-		if(!empty($params['id']))
+		if(!empty((int)$params['id']) && !empty($params['name']))
 		{
 			$id = array_shift($params);
-			$this->model->updateGenre($id,$params);
+
+			if($this->model->updateGenre($id, $params))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Renamed');
+			}
 		}
 		else
 		{
-			throw new \Exception('net Id -genre-');
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Check name field');
 		}
 	}
 	public function deleteGenres($params)
 	{
-		if(!empty($params['id']))
+		if(!empty((int)$params['id']))
 		{
 			$id = $params['id'];
-			$this->model->deleteGenre($id);
+
+			if($this->model->deleteGenre($id))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Deleted');
+			}
 		}
 		else
 		{
-			throw new \Exception('net Id -delete--genre-');
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Select Genre to delete');
 		}
 	}
 }

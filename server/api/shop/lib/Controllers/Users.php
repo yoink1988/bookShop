@@ -16,7 +16,22 @@ class Users
 
     public function getUsers($params=null)
     {
-        $this->model->getUsers($params=null);
+		$id = $params;
+		if(isset($params['id']))
+		{
+			$id = $params['id'];
+		}
+
+        if($res = $this->model->getUsers($id))
+		{
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse($res);
+		}
+		else
+		{
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Not Found');
+		}
     }
 
     public function postUsers($params)

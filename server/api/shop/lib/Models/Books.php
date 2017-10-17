@@ -15,16 +15,6 @@ class Books
 	}
 	public function getBooks($id = null)
 	{
-    
-
-		
-//		$query = \database\QSelect::getInstance()->setColumns('b.id as id,'
-//															. ' b.title, b.description, '
-//															. 'b.price, b.discount')
-//														->setTable('books b')
-//														->setOrder('b.id');
-
-
 		$query = \database\QSelect::getInstance()->setColumns('b.id as id,'
 															. ' b.title, b.description, '
 															. 'b.price, b.discount,'
@@ -50,19 +40,20 @@ class Books
         }
 
 		$res = $this->db->select($query);
-//				dump($res);
-		$res = $this->uniq($res);
-//		dump ($res);
-		return $res;
+//		file_put_contents('sql.txt', print_r($this->uniq($res), true));
+		if($res)
+		{
+			return $this->uniq($res);
+		}
+		else
+		{
+			return 'no books found';
+		}
 
-//		return $this->uniq($res);
-//	var_dump($un);
 	}
 	
 	public function addBook($params)
 	{
-//		$params = $this->db->clearParams($params);
-
 		$query  = \database\QInsert::getInstance()->setTable('books')
 												->setParams($params);
 		$res = $this->db->insert($query);

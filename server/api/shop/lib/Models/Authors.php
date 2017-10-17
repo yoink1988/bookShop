@@ -33,24 +33,26 @@ class Authors
 	{
 		$query = \database\QInsert::getInstance()->setTable('authors')
 												->setParams($params);
-		$res = $this->db->insert($query);
-		dump($res);
+		 return $this->db->insert($query);
 	}
 
 	public function updateAuthor($id, $params)
 	{
+		$id = $this->db->clearString($id);
+
 		$query = \database\QUpdate::getInstance()->setTable('authors')
 												->setParams($params)
 												->setWhere("id = $id");
-		$res = $this->db->update($query);
-		var_dump($res);
+		return $this->db->update($query);
 	}
+	
 	public function deleteAuthor($id)
 	{
+		$id = $this->db->clearString($id);
+
 		$query = \database\QDelete::getInstance()->setTable('authors')
 												->setWhere("id = $id");
-		$res = $this->db->delete($query);
-		var_dump($res);
+		return $this->db->delete($query);
 	}
 
 }

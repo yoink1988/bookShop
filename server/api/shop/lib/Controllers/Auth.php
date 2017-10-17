@@ -25,6 +25,11 @@ class Auth
 				\Utils\Response::SuccessResponse(200);
 				\Utils\Response::doResponse($res);
 			}
+			else
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('NE ZALOGINEN');
+			}
 		}
 		else
 		{
@@ -50,13 +55,14 @@ class Auth
 			}
 			else
 			{
-				throw new \Exception('Incorrect Login Or Pass',402);;
+//				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('incorrect login or pass');
 			}
 
 		}
 		else
 		{
-			echo 'bad data';
+			\Utils\Response::doResponse('incorrect login or pass');
 		}
 	}
 

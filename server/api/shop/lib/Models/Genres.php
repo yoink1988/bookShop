@@ -25,30 +25,32 @@ class Genres
 			$query->setWhere("id = $id");
 		}
 
-        $res = $this->db->select($query);
-        return $res;
+        return $this->db->select($query);
     }
 	public function addGenre($params)
 	{
 		$query = \database\QInsert::getInstance()->setTable('genres')
 												->setParams($params);
-		$res = $this->db->insert($query);
-		dump($res);
+		
+		return $this->db->insert($query);
 	}
 
 	public function updateGenre($id, $params)
 	{
+		$id = $this->db->clearString($id);
+		
 		$query = \database\QUpdate::getInstance()->setTable('genres')
 												->setParams($params)
 												->setWhere("id = $id");
-		$res = $this->db->update($query);
-		var_dump($res);
+		return $this->db->update($query);
 	}
+	
 	public function deleteGenre($id)
 	{
+		$id = $this->db->clearString($id);
+
 		$query = \database\QDelete::getInstance()->setTable('genres')
 												->setWhere("id = $id");
-		$res = $this->db->delete($query);
-		var_dump($res);
+		return $this->db->delete($query);
 	}
 }

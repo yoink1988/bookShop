@@ -13,13 +13,18 @@ class Users
         $this->db = \database\Database::getInstance();
     }
 
-    public function getUsers($params = null)
+    public function getUsers($id = null)
     {
+
         $query = \database\QSelect::getInstance()->setColumns('id, name, login,'.
-                                                'pass, discount, status, role')
+                                                'discount, status, role')
                                                 ->setTable('users');
-        $res = $this->db->select($query);
-        dump($res);
+		if($id)
+		{
+			$id = $this->db->clearString($id);
+			$query->setWhere("id = {$id}");
+		}
+        return $this->db->select($query);
     }
 	
     public function addUser($params)

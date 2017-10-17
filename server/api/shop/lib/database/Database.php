@@ -113,5 +113,10 @@ class Database
 		}
 		return $cleared;
 	}
+
+	public function getLastInsertID()
+	{
+		return $this->pdo->lastInsertId();
+	}
 	
 }

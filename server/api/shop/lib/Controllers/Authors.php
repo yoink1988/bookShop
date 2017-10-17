@@ -33,42 +33,59 @@ class Authors
 		{
 			
 		}
-
 	}
 
     public function postAuthors($params)
     {
-        if($params)
+        if(!empty($params['name']))
 		{
-			$res = $this->model->addAuthor($params);
+			if($this->model->addAuthor($params))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Added');
+			}
 		}
 		else
 		{
-			throw new \Exception('Net imeni avtora');
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Check Name Field');
 		}
     }
+
+
 	public function putAuthors($params)
 	{
-		if(!empty($params['id']))
+		if((!empty((int)$params['id'])) && (!empty($params['name'])))
 		{
 			$id = array_shift($params);
-			$this->model->updateAuthor($id,$params);
+			if($this->model->updateAuthor($id, $params))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Renamed');
+			}
 		}
 		else
 		{
-			throw new \Exception('net Id -author-');
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Check Name Field');
 		}
 	}
-	public function deleteAuthos($params)
+	public function deleteAuthors($params)
 	{
+
 		if(!empty($params['id']))
 		{
 			$id = $params['id'];
-			$this->model->deleteAuthor($id);
+			if($this->model->deleteAuthor($id))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Deleted');
+			}
 		}
 		else
 		{
-			throw new \Exception('net Id -delete--auth-');
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Select Author to delete');
 		}
 	}
 }

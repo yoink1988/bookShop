@@ -1,0 +1,38 @@
+Array
+(
+    [0] => Array
+        (
+            [id] => 2
+            [title] => Kniga Dva
+            [description] => Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads 
+            [price] => 152.1
+            [discount] => 0
+            [authors] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 3
+                            [name] => Shevchenko
+                        )
+
+                    [1] => Array
+                        (
+                            [id] => 5
+                            [name] => avtor
+                        )
+
+                )
+
+            [genres] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 3
+                            [name] => Detektiv
+                        )
+
+                )
+
+        )
+
+)
