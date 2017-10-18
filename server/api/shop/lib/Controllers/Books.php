@@ -63,27 +63,80 @@ class Books
 
 	public function putBooks($params)
 	{
-		print_r($params);
+        print_r($params);
 		exit;
 
 		if((isset($params['book'])) && (isset($params['authToDel'])) &&
 			(isset($params['authToAdd'])) && (isset($params['genToDel'])) &&
 			(isset($params['genToAdd'])))
 		{
-			$book = array_shift($params);
+            $book = $params['book'];
+            unset($params['book']);
+            $bId = $book['id'];
+            unset($book['id']);
+
+            if($this->model->updateBook($bId, $book))
+            {
+                $errs = 0;
+                if(!empty($params['authToAdd']))
+                {
+                    foreach($params['authToAdd'] as $aId)
+                    {
+                        if(!$this->model->addAuthLink(array('id_book' => $bId, 'id_author' => $aId)))
+                        {
+                            $errs++;
+                        }
+                    }
+                }
+                if(!empty($params['genToAdd']))
+                {
+                    foreach($params['genToAdd'] as $gId)
+                    {
+                        if(!$this->model->addGenreLink(array('id_book' => $bid, 'id_genre' => $gid)))
+                        {
+                            $errs++;
+                        }
+                    }
+                }
+                if(!empty($params['authToDel']))
+                {
+                    foreach($params['authToDel'] as $aId)
+                    {
+                        if(!$this->model->delAuthLink($bId, $aId))
+                        {
+                            $errs++;
+                        }
+                    }
+                }
+                if(!empty($params['genToDel']))
+                {
+                    foreach($params['genToDel'] as $gId)
+                    {
+                        if(!$this->model->delGenLink($bid, $gid))
+                        {
+                            $errs++;
+                        }
+                    }
+                }
+                if($errs == 0)
+                {
+ 					\Utils\Response::SuccessResponse(200);
+					\Utils\Response::doResponse('Updated');
+                }
+            } 
 
 		}
 
 
-		if(!empty($params['id']))
-		{
-			$id = array_shift($params);
-			$this->model->updateBook($id,$params);
-		}
-		else
-		{
-			throw new \Exception('net Id');
-		}
+//		if(!empty($params['id']))
+//		{
+//			$id = array_shift($params);
+//			$this->model->updateBook($id,$params);
+//		}
+//		else
+//		{
+//			throw new \Exception('net Id');
+//		}
 
 	}
 	public function deleteBooks($params)

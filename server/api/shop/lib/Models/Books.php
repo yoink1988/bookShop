@@ -100,11 +100,32 @@ class Books
 	{
 		$query = \database\QUpdate::getInstance()->setTable('books')
 												->setParams($params)
-												->setWhere("id = $id");
-		$res = $this->db->update($query);
-		var_dump($res);
-	}
+												->setWhere("id = {$id}");
+		return $this->db->update($query);
+    }
 
+    public function delAuthLink($bId, $aId)
+    {
+        $bId = $this->db->clearString($bId);
+        $aId = $this->db->clearString($aId);
+        $query = \database\QDelete::getInstance()->setTable('book_author')
+            ->setWhere("id_book = {$bId} and id_author = {$aId}");
+
+        return $this->db->delete($query);
+    }
+
+    public function delGenLink($bId, $gId)
+    {
+        $bId = $this->db->clearString($bId);
+        $gId = $this->db->clearString($gId);
+
+        $query = \database\QDelete::getInstance()->setTable('book_genre')
+                                                ->setWhere("id_book = {$bId} and id_genre = {$gId}");
+
+        return $this->db->delete($query);
+    }
+
+/*    
 	public function deleteBook($id)
 	{
 		$query = \database\QDelete::getInstance()->setTable('books')
@@ -112,7 +133,7 @@ class Books
 		$res = $this->db->delete($query);
 		var_dump($res);
 	}
-
+ */
 	private function uniq($res)
 	{
 		$unic = array();
