@@ -13,11 +13,11 @@ class Books
 	{
 		$this->db = \database\Database::getInstance();
 	}
-	public function getBooks($id = null)
+	public function getBooks($params = null)
 	{
 		$query = \database\QSelect::getInstance()->setColumns('b.id as id,'
 															. ' b.title, b.description, '
-															. 'b.price, b.discount,'
+															. 'b.price, b.discount, b.status,'
 															. ' a.id as a_id,'
 															. ' a.name as a_name, '
 															. 'g.id as g_id,'
@@ -33,14 +33,30 @@ class Books
 														. 'on bg.id_genre = g.id')
 
 														->setOrder('b.id');
-		if($id)
-        {
-            $id = $this->db->clearString($id);
-			$query->setWhere("b.id = $id");
-        }
 
+		if(isset($params['id']))
+		{
+			$id = $this->db->clearString($params['id']);
+			if($params['status'] != 'all')
+			{
+				$status = $this->db->clearString($params['status']);
+				$query->setWhere("b.id = {$id} and b.status = {$status}");
+			}
+			else
+			{
+				$query->setWhere("b.id = {$id}");
+			}
+		}
+		else
+		{
+			if($params['status'] != 'all')
+			{
+				$status = $this->db->clearString($params['status']);
+				$query->setWhere("b.status = {$status}");
+			}
+		}
 		$res = $this->db->select($query);
-//		file_put_contents('sql.txt', print_r($this->uniq($res), true));
+
 		if($res)
 		{
 			return $this->uniq($res);
@@ -56,9 +72,28 @@ class Books
 	{
 		$query  = \database\QInsert::getInstance()->setTable('books')
 												->setParams($params);
-		$res = $this->db->insert($query);
+		if($this->db->insert($query))
+		{
+			return $this->db->getLastInsertID();
+		}
+		return false;
 
-		var_dump($res);
+	}
+
+
+	public function addAuthLink(array $params)
+	{
+		$q = \database\QInsert::getInstance()->setTable('book_author')
+											->setParams($params);
+
+		return $this->db->insert($q);
+	}
+	public function addGenreLink(array $params)
+	{
+		$q = \database\QInsert::getInstance()->setTable('book_genre')
+											->setParams($params);
+
+		return $this->db->insert($q);
 	}
 
 	public function updateBook($id, $params)

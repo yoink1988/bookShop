@@ -19,7 +19,7 @@ class Orders
 		//PARAMS
 
 		$query = \database\QSelect::getInstance()->setColumns('o.id as id, '
-				. 'u.id as u_id, u.login as u_login, u.discount as u_disc, p.id as p_id, p.name as p_name, s.id as s_id, s.name as s_name, o.date, '
+				. 'u.id as u_id, u.login as u_login, u.name as u_name, u.discount as u_disc, p.id as p_id, p.name as p_name, s.id as s_id, s.name as s_name, o.date, '
 				. 'oi.id_book as b_id, oi.count as count, b.title as b_title, oi.price, oi.disc_book as b_disc')
 				->setTable('orders o')
 				->setjoin('left join users u on o.id_user = u.id left join payment p on o.id_payment = p.id'
@@ -63,6 +63,7 @@ class Orders
 				$uniq[$i]['id'] = $order['id'];
 				$uniq[$i]['u_id'] = $order['u_id'];
 				$uniq[$i]['u_login'] = $order['u_login'];
+				$uniq[$i]['u_name'] = $order['u_name'];
 				$uniq[$i]['u_disc'] = $order['u_disc'];
 				$uniq[$i]['p_name'] = $order['p_name'];
 				$uniq[$i]['s_id'] = $order['s_id'];
@@ -88,6 +89,7 @@ class Orders
 				$uniq[$i]['id'] = $order['id'];
 				$uniq[$i]['u_id'] = $order['u_id'];
 				$uniq[$i]['u_login'] = $order['u_login'];
+				$uniq[$i]['u_name'] = $order['u_name'];
 				$uniq[$i]['u_disc'] = $order['u_disc'];
 				$uniq[$i]['p_name'] = $order['p_name'];
 				$uniq[$i]['s_id'] = $order['s_id'];

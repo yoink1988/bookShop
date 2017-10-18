@@ -16,13 +16,11 @@ class Books
 
 	public function getBooks($params=null)
     {
-		$id = $params;
-		if(isset($params['id']))
+		if(!isset($params['status']))
 		{
-			$id = $params['id'];
+			$params['status'] = 1;
 		}
-
-		$res = $this->model->getBooks($id);
+		$res = $this->model->getBooks($params);
 		if($res)
 		{
 			\Utils\Response::SuccessResponse(200);
@@ -30,20 +28,53 @@ class Books
 		}
 	}
 	
-	public function postBooks($params)
+	public function postBooks(array $params)
 	{
-		if(count($params) == 4)
+		if((isset($params['book'])) && (isset($params['authors'])) && (isset($params['genres'])))
 		{
-			$this->model->addBook($params);
+			$params['book']['status'] = 1;
+			if($bId = $this->model->addBook($params['book']))
+			{
+				$errs = 0;
+				foreach ($params['authors'] as $author)
+				{
+					if(!$this->model->addAuthLink(array('id_book' => $bId, 'id_author' => $author)))
+					{
+						$errs++;
+					}
+				}
+
+				foreach ($params['genres'] as $genre)
+				{
+					if(!$this->model->addGenreLink(array('id_book' => $bId, 'id_genre' => $genre)))
+					{
+						$errs++;
+					}
+				}
+				if($errs == 0)
+				{
+					\Utils\Response::SuccessResponse(200);
+					\Utils\Response::doResponse('Added');
+				}
+			}
 		}
-		else
-		{
-			throw new \Exception('not All Data in Post');
-		}
+
 	}
 
 	public function putBooks($params)
 	{
+		print_r($params);
+		exit;
+
+		if((isset($params['book'])) && (isset($params['authToDel'])) &&
+			(isset($params['authToAdd'])) && (isset($params['genToDel'])) &&
+			(isset($params['genToAdd'])))
+		{
+			$book = array_shift($params);
+
+		}
+
+
 		if(!empty($params['id']))
 		{
 			$id = array_shift($params);
