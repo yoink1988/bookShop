@@ -35,8 +35,19 @@ class Users
 
 		
         $res = $this->db->insert($query);
-        dump($res);
+//        dump($res);
     }
+
+	public function updateUser($id, $params)
+	{
+		$id = $this->db->clearString($id);
+
+		$q = \database\QUpdate::getInstance()->setTable('users')
+											->setParams($params)
+											->setWhere("id = {$id}");
+
+	    return $this->db->update($q);
+	}
 
 
 

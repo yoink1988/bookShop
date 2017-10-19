@@ -63,8 +63,8 @@ class Books
 
 	public function putBooks($params)
 	{
-        print_r($params);
-		exit;
+//        print_r($params);
+//		exit;
 
 		if((isset($params['book'])) && (isset($params['authToDel'])) &&
 			(isset($params['authToAdd'])) && (isset($params['genToDel'])) &&
@@ -92,7 +92,7 @@ class Books
                 {
                     foreach($params['genToAdd'] as $gId)
                     {
-                        if(!$this->model->addGenreLink(array('id_book' => $bid, 'id_genre' => $gid)))
+                        if(!$this->model->addGenreLink(array('id_book' => $bId, 'id_genre' => $gId)))
                         {
                             $errs++;
                         }
@@ -112,7 +112,7 @@ class Books
                 {
                     foreach($params['genToDel'] as $gId)
                     {
-                        if(!$this->model->delGenLink($bid, $gid))
+                        if(!$this->model->delGenLink($bId, $gId))
                         {
                             $errs++;
                         }

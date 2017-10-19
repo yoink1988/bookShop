@@ -36,11 +36,8 @@ class Users
 
     public function postUsers($params)
     {
-//		file_put_contents('tempp.txt', print_r($params, true));
 		if(!empty($params['name']) && !empty($params['login']) && (!empty($params['pass'])))
 		{
-			//valid
-			//if()
 			$params['pass'] = md5($params['pass']);
 			$params['status'] = '1';
 			$params['role'] = 'user';
@@ -56,8 +53,21 @@ class Users
 	//login
     public function putUsers($params)
     {
-		
-        $this->model->updateUsers($params);
+		if(!empty($params['id']))
+		{
+			$uId = $params['id'];
+			unset($params['id']);
+
+			if(isset($params['pass']) && (!empty(trim($params['pass']))))
+			{
+				$params['pass'] = md5($params['pass']);
+			}
+			if($this->model->updateUser($uId, $params))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Updated');
+			}
+		}
     }
 
 

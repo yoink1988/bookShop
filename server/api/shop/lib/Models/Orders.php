@@ -16,18 +16,35 @@ class Orders
 
     public function getOrders($params = null)
 	{
-		//PARAMS
+
 
 		$query = \database\QSelect::getInstance()->setColumns('o.id as id, '
-				. 'u.id as u_id, u.login as u_login, u.name as u_name, u.discount as u_disc, p.id as p_id, p.name as p_name, s.id as s_id, s.name as s_name, o.date, '
+				. 'u.id as u_id, u.login as u_login, u.name as u_name, o.disc_user as u_disc, p.id as p_id, p.name as p_name, s.id as s_id, s.name as s_name, o.date, '
 				. 'oi.id_book as b_id, oi.count as count, b.title as b_title, oi.price, oi.disc_book as b_disc')
 				->setTable('orders o')
 				->setjoin('left join users u on o.id_user = u.id left join payment p on o.id_payment = p.id'
 						. ' left join status s on o.id_status = s.id left join orderinfo oi on o.id = oi.id left join books b on oi.id_book = b.id');
 
+		if(isset($params['id']))
+		{
+			$uId = $this->db->clearString($params['id']);
+			$query->setWhere("o.id_user = {$uId}");
+		}
+
 		$res = $this->db->select($query);
 		return $this->orderUnique($res);
     }
+
+	public function changeStatus($id, $params)
+	{
+		$id = $this->db->clearString($id);
+
+		$q = \database\QUpdate::getInstance()->setTable('orders')
+											->setParams($params)
+											->setWhere("id = {$id}");
+
+		return $this->db->update($q);
+	}
 
 	public function addOrder($params)
 	{

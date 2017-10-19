@@ -88,6 +88,7 @@ class Books
 
 		return $this->db->insert($q);
 	}
+	
 	public function addGenreLink(array $params)
 	{
 		$q = \database\QInsert::getInstance()->setTable('book_genre')

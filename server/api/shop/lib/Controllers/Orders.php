@@ -16,21 +16,31 @@ class Orders
 
     public function getOrders($params = null)
     {
-		$id = null;
-		if(!empty((int)$params['id']))
-		{
-			$id = $params['id'];
-		}
-        if($res = $this->model->getOrders($id))
+        if($res = $this->model->getOrders($params))
 		{
 			\Utils\Response::SuccessResponse(200);
 			\Utils\Response::doResponse($res);			
+		}
+		else
+		{
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('Not Found');
 		}
     }
 
     public function putOrders($params)
     {
-        $this->model->getOrders($params);
+		if((!empty($params['id'])) && (!empty($params['id_status'])))
+		{
+			$id =  $params['id'];
+			unset($params['id']);
+
+			if($this->model->changeStatus($id, $params))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Updated');
+			}
+		}
     }
 
 	public function postOrders($params)
