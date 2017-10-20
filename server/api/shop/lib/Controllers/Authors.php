@@ -78,8 +78,11 @@ class Authors
 			$id = $params['id'];
 			if($this->model->deleteAuthor($id))
 			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('Deleted');
+				if($this->model->deleteAuthLink($id))
+				{
+					\Utils\Response::SuccessResponse(200);
+					\Utils\Response::doResponse('Deleted');
+				}
 			}
 		}
 		else

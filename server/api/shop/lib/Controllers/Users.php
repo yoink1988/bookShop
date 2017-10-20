@@ -41,12 +41,16 @@ class Users
 			$params['pass'] = md5($params['pass']);
 			$params['status'] = '1';
 			$params['role'] = 'user';
-//			$params['hash'] = $this->generateHash();
-        $this->model->addUser($params);
+			if($this->model->addUser($params))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse('Success');
+			}
 		}
 		else
 		{
-			echo 'aqweqweqw';
+			\Utils\Response::SuccessResponse(200);
+			\Utils\Response::doResponse('All fields are required');
 		}
     }
 

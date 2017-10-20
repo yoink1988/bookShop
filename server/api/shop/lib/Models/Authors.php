@@ -42,7 +42,7 @@ class Authors
 
 		$query = \database\QUpdate::getInstance()->setTable('authors')
 												->setParams($params)
-												->setWhere("id = $id");
+												->setWhere("id = {$id}");
 		return $this->db->update($query);
 	}
 	
@@ -51,7 +51,17 @@ class Authors
 		$id = $this->db->clearString($id);
 
 		$query = \database\QDelete::getInstance()->setTable('authors')
-												->setWhere("id = $id");
+												->setWhere("id = {$id}");
+		return $this->db->delete($query);
+	}
+
+	public function deleteAuthLink($id)
+	{
+		$id = $this->db->clearString($id);
+
+		$query = \database\QDelete::getInstance()->setTable('book_author')
+												->setWhere("id_author = {$id}");
+
 		return $this->db->delete($query);
 	}
 

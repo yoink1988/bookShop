@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of Router
+ * Description of RestServer
  *
  * @author yoink
  */
-class Router
+class RestServer
 {
 	public $args = null;
 	public function __construct()
@@ -16,9 +16,7 @@ class Router
 
 	public function run()
 	{
-//		echo '<pre>';
 		$this->parseUrl();
-
 		if(class_exists($this->class))
 		{
 			$controller = new $this->class;
@@ -28,13 +26,11 @@ class Router
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'POST':
-					$this->args = $this->getPostArgs();
-
-//				file_put_contents('tempp.txt', print_r(file_get_contents("php://input"), true));
+					$this->args = $this->getArgs();
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'PUT':
-					$this->args = $this->getPutArgs();
+					$this->args = $this->getArgs();
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'DELETE':
@@ -105,17 +101,12 @@ class Router
 			}
 		}
 	}
-	private function getPostArgs()
+	private function getArgs()
     {
 		return json_decode(file_get_contents("php://input"), true);
-//        return $_POST;
     }
-	private function getPutArgs()
-    {
-        return json_decode(file_get_contents("php://input"), true);
-
-//		$tmp = array();
-//       parse_str(file_get_contents("php://input"), $tmp);
-//	   return $tmp;
-    }
+//	private function getPutArgs()
+//    {
+//        return json_decode(file_get_contents("php://input"), true);
+//    }
 }

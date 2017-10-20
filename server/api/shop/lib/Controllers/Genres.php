@@ -72,8 +72,11 @@ class Genres
 
 			if($this->model->deleteGenre($id))
 			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('Deleted');
+				if($this->model->deleteGenreLink($id))
+				{
+					\Utils\Response::SuccessResponse(200);
+					\Utils\Response::doResponse('Deleted');
+				}
 			}
 		}
 		else

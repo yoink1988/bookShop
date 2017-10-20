@@ -53,4 +53,13 @@ class Genres
 												->setWhere("id = $id");
 		return $this->db->delete($query);
 	}
+
+	public function deleteGenreLink($id)
+	{
+		$id = $this->db->clearString($id);
+
+		$query = \database\QDelete::getInstance()->setTable('book_genre')
+												->setWhere("id_genre = {$id}");
+		return $this->db->delete($query);
+	}
 }

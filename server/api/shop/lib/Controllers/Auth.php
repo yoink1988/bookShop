@@ -27,13 +27,15 @@ class Auth
 			}
 			else
 			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('NE ZALOGINEN');
+				\Utils\Response::ErrorResponse(401, 'NE ZALOGINEN');
+//				\Utils\Response::doResponse('NE ZALOGINEN');
 			}
 		}
 		else
 		{
-			throw new \Exception('Ne Zaloginen',403);
+			\Utils\Response::ErrorResponse(401, 'NE ZALOGINEN');
+//				\Utils\Response::SuccessResponse(200);
+//				\Utils\Response::doResponse('NE ZALOGINEN');
 		}
 	}
 

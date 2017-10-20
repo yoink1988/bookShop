@@ -56,6 +56,11 @@ abstract class Query
 		$this->params = $params;
 		return $this;
 	}
+	public function setLimit($limit)
+	{
+		$this->limit = $limit; 
+		return $this;
+	}
 
 	abstract public function getQueryString();
 }
