@@ -15,7 +15,6 @@ class Users
 
     public function getUsers($id = null)
     {
-
         $query = \database\QSelect::getInstance()->setColumns('id, name, login,'.
                                                 'discount, status, role')
                                                 ->setTable('users');
@@ -29,16 +28,60 @@ class Users
 	
     public function addUser($params)
     {
+		if(!\Utils\Validator::validName($params['name']))
+		{
+			return 'Invalid Name';
+		}
+		if(!\Utils\Validator::validEmail($params['login']))
+		{
+			return 'Invalid Email';
+		}
+		if(!\Utils\Validator::validPassword($params['pass']))
+		{
+			return 'Invalid Password';
+		}
+
+		$params['pass'] = md5($params['pass']);
+		$params['status'] = '1';
+		$params['role'] = 'user';
+
         $query = \database\QInsert::getInstance()->setTable('users')
 												->setParams($params);
 
 		
-        return $this->db->insert($query);
+        if($this->db->insert($query))
+		{
+			return true;
+		}
+		return false;
     }
 
-	public function updateUser($id, $params)
+	public function updateUser($params)
 	{
-		$id = $this->db->clearString($id);
+		if(!\Utils\Validator::validName($params['name']))
+		{
+			return 'Invalid Name';
+		}
+		if(!\Utils\Validator::validEmail($params['login']))
+		{
+			return 'Invalid Email';
+		}
+		if(!\Utils\Validator::validDiscount($params['discount']))
+		{
+			return 'Discount limit is 50%';
+		}
+
+		if(isset($params['pass']))
+		{
+			if(!\Utils\Validator::validPassword($params['pass']))
+			{
+				return 'Invalid Password';
+			}
+			$params['pass'] = md5($params['pass']);
+		}
+
+		$id = $this->db->clearString($params['id']);
+		unset($params['id']);
 
 		$q = \database\QUpdate::getInstance()->setTable('users')
 											->setParams($params)

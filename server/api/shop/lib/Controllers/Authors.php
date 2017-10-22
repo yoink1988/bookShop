@@ -22,73 +22,21 @@ class Authors
 		{
 			$id = $params['id'];
 		}
-		$res = $this->model->getAuthors($id);
-		
-		if($res)
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse($res);
-		}
-		else
-		{
-			
-		}
+		return $this->model->getAuthors($id);
 	}
 
     public function postAuthors($params)
     {
-        if(!empty($params['name']))
-		{
-			if($this->model->addAuthor($params))
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('Added');
-			}
-		}
-		else
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse('Check Name Field');
-		}
+		return $this->model->addAuthor($params);
     }
-
 
 	public function putAuthors($params)
 	{
-		if((!empty((int)$params['id'])) && (!empty($params['name'])))
-		{
-			$id = array_shift($params);
-			if($this->model->updateAuthor($id, $params))
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('Renamed');
-			}
-		}
-		else
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse('Check Name Field');
-		}
+		return $this->model->updateAuthor($params);
 	}
+	
 	public function deleteAuthors($params)
 	{
-
-		if(!empty($params['id']))
-		{
-			$id = $params['id'];
-			if($this->model->deleteAuthor($id))
-			{
-				if($this->model->deleteAuthLink($id))
-				{
-					\Utils\Response::SuccessResponse(200);
-					\Utils\Response::doResponse('Deleted');
-				}
-			}
-		}
-		else
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse('Select Author to delete');
-		}
+		return $this->model->deleteAuthor($params);
 	}
 }

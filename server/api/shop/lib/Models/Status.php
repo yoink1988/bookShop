@@ -25,6 +25,5 @@ class Status
 			$query->setWhere("id = $id");
 		}
         return $this->db->select($query);
-
 	}
 }

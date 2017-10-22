@@ -14,72 +14,64 @@ class Auth
         $this->db = \database\Database::getInstance();
     }
 
-	public function checkLogData($data)
+	public function checkLogData($params)
 	{
-		$q = \database\QSelect::getInstance()->setColumns('pass, status')
-												->setTable('users')
-												->setWhere("login = {$this->db->clearString($data['login'])}");
-
-		$res = $this->db->select($q);
-		if(!$res)
+		if(!\Utils\Validator::validEmail($params['login']))
 		{
 			return false;
 		}
 
-		if($res[0]['pass'] == md5($data['pass']) && ($res[0]['status'] != '0'))
+		if(!\Utils\Validator::validPassword($params['pass']))
 		{
-			return true;
+			return false;
+		}
+
+		$q = \database\QSelect::getInstance()->setColumns('pass, status')
+												->setTable('users')
+												->setWhere("login = {$this->db->clearString($params['login'])}");
+
+		if($res = $this->db->select($q))
+		{
+			if($res[0]['pass'] == md5($params['pass']) && ($res[0]['status'] != '0'))
+			{
+				return true;
+			}
 		}
 		return false;
 	}
 
 	public function login($params)
 	{
+		$params['hash'] = $this->generateHash();
 
 		$q = \database\QUpdate::getInstance()->setTable('users')->setParams(array('hash' => "{$params['hash']}"))
 																->setWhere("login = {$this->db->clearString($params['login'])}");
 					
-		$res = $this->db->update($q);
-		if($res)
-		{
 
+		if($res = $this->db->update($q))
+		{
 			$q = \database\QSelect::getInstance()->setColumns('id, name, role, discount, hash')->setTable('users')
 												->setWhere("login = {$this->db->clearString($params['login'])} "
 												. "and pass = {$this->db->clearString(md5($params['pass']))}");
 
-
 			return $this->db->select($q);
 		}
-		else
-		{
-			echo $this->db->getError();
-		}
-
-
+		return false;
 	}
 
 	public function checkAuth($params)
 	{
-		$q = \database\QSelect::getInstance()->setColumns('hash, status')->setTable('users')
+		$q = \database\QSelect::getInstance()->setColumns('status')->setTable('users')
 											->setWhere("id = {$this->db->clearString($params['id'])}"
 											. " and hash = {$this->db->clearString($params['hash'])}");
 
-		$res = $this->db->select($q);
-		if(($res[0]['hash'] == $params['hash']) && $res[0]['status'] != '0')
+		if($res = $this->db->select($q))
 		{
-			$res = $this->getUserData($params['id']);
-			return $res;
+			return $this->getUserData($params['id']);
 		}
-		else
-		{
-			throw new Exception('401','NOT AUTORIZED');
-		}
+		return false;
 	}
 
-//	public function logOut($id)
-//	{
-//		$q = \database\QDelete::getInstance()->setC
-//	}
 
 	public function getUserData($id)
 	{
@@ -88,5 +80,17 @@ class Auth
 
 		return $this->db->select($q);
 	}
+
+	private function generateHash($length=10)
+    {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRQSTUVWXYZ0123456789";
+        $code = "";
+        $clen = strlen($chars) - 1;
+        while (strlen($code) < $length)
+        {
+            $code .= $chars[mt_rand(0,$clen)];
+        }
+        return $code;
+    }
 
 }

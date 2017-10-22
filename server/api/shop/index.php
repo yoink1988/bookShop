@@ -14,16 +14,16 @@ try{
 	$router->run();
 }
 
-catch (\PDOException $ex)
-{
-	echo $ex->getMessage();
-}
+//catch (\PDOException $ex)
+//{
+//	echo $ex->getMessage();
+//}
 
 catch (\Exception $e)
 {
 	if(RUN_MODE == MODE_LIVE)
 	{
-		\Utils\Response::ErrorResponse($e->getCode(), $e->getMessage());
+		echo $e->getMessage();
 	}
 	else
 	{

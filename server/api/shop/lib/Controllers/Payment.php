@@ -16,15 +16,7 @@ class Payment
 
 	public function getPayment()
 	{
-		if($res = $this->model->getPayment())
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse($res);
-		}
-		else
-		{
-			throw new \Exception('try again later', 404);
-		}
+		 return $this->model->getPayment();
 	}
 
 }

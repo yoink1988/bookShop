@@ -17,48 +17,58 @@ class Authors
 
     public function getAuthors($id=null)
     {
-		$res = array();
 		$query = \database\QSelect::getInstance()->setColumns('id, name')
 												->setTable('authors');
 		if($id)
 		{
 			$id = $this->db->clearString($id);
-			$query->setWhere("id = $id");
+			$query->setWhere("id = {$id}");
 		}
-        $res = $this->db->select($query);
-		return $res;
+        return $this->db->select($query);
     }
 
 	public function addAuthor($params)
 	{
-		$query = \database\QInsert::getInstance()->setTable('authors')
-												->setParams($params);
-		 return $this->db->insert($query);
+		if(\Utils\Validator::validAuthName($params['name']))
+		{
+			$query = \database\QInsert::getInstance()->setTable('authors')
+													->setParams($params);
+			return $this->db->insert($query);
+		}
+		return false;
 	}
 
-	public function updateAuthor($id, $params)
+	public function updateAuthor($params)
 	{
-		$id = $this->db->clearString($id);
+		if(\Utils\Validator::validAuthName($params['name']))
+		{
+			$id = $this->db->clearString($params['id']);
+			unset($params['id']);
 
-		$query = \database\QUpdate::getInstance()->setTable('authors')
-												->setParams($params)
-												->setWhere("id = {$id}");
-		return $this->db->update($query);
+			$query = \database\QUpdate::getInstance()->setTable('authors')
+													->setParams($params)
+													->setWhere("id = {$id}");
+			return $this->db->update($query);
+		}
+		return false;
 	}
 	
-	public function deleteAuthor($id)
+	public function deleteAuthor($params)
 	{
-		$id = $this->db->clearString($id);
+		$id = $this->db->clearString($params['id']);
 
 		$query = \database\QDelete::getInstance()->setTable('authors')
 												->setWhere("id = {$id}");
-		return $this->db->delete($query);
+
+		if($this->db->delete($query))
+		{
+			return $this->deleteAuthLink($id);
+		}
+		return false;
 	}
 
-	public function deleteAuthLink($id)
+	private function deleteAuthLink($id)
 	{
-		$id = $this->db->clearString($id);
-
 		$query = \database\QDelete::getInstance()->setTable('book_author')
 												->setWhere("id_author = {$id}");
 

@@ -30,6 +30,11 @@ class Cart
 
 	public function addToCart(array $params)
 	{
+		if(!\Utils\Validator::validCount($params['count']))
+		{
+			return false;
+		}
+		
 		$q = \database\QInsert::getInstance()->setTable('cart')->setParams($params);
 		return $this->db->insert($q);
 	}
@@ -45,8 +50,14 @@ class Cart
 		return $this->db->select($q);
 	}
 
+
+	
 	public function changeCount($userId, $params)
 	{
+		if(!\Utils\Validator::validCount($params['count']))
+		{
+			return false;
+		}
 		$userId = $this->db->clearString($userId);
 		$idBook = $this->db->clearString($params['id_book']);
 		$params = array('count' => $params['count']);
@@ -69,9 +80,9 @@ class Cart
 		return $this->db->delete($q);
 	}
 
-	public function clearCart($params)
+	public function clearCart($id)
 	{
-		$id = $this->db->clearString($params['id']);
+		$id = $this->db->clearString($id);
 		$q = \database\QDelete::getInstance()->setTable('cart')
 											->setWhere("id_user = {$id}");
 

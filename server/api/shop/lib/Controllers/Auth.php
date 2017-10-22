@@ -16,76 +16,16 @@ class Auth
 
 	public function getAuth($params)
 	{
-		if((!empty($params['id'])) && (!empty($params['hash'])))
-		{
-			$res = $this->model->checkAuth($params);
-
-			if($res)
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse($res);
-			}
-			else
-			{
-				\Utils\Response::ErrorResponse(401, 'NE ZALOGINEN');
-//				\Utils\Response::doResponse('NE ZALOGINEN');
-			}
-		}
-		else
-		{
-			\Utils\Response::ErrorResponse(401, 'NE ZALOGINEN');
-//				\Utils\Response::SuccessResponse(200);
-//				\Utils\Response::doResponse('NE ZALOGINEN');
-		}
+		return $this->model->checkAuth($params);
 	}
 
 	public function putAuth($params)
 	{
-		if($params['login'] && $params['pass'])
+		if($this->model->checkLogData($params))
 		{
-			if($this->model->checkLogData($params))
-			{
-
-				$params['hash'] = $this->generateHash(10);
-
-				$res = $this->model->login($params);
-				if($res)
-				{
-					\Utils\Response::SuccessResponse(200);
-					\Utils\Response::doResponse($res);
-				}
-			}
-			else
-			{
-//				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('incorrect login or pass');
-			}
-
+			return $this->model->login($params);
 		}
-		else
-		{
-			\Utils\Response::doResponse('incorrect login or pass');
-		}
+		return false;
 	}
-
-//	public function deleteAuth($params)
-//	{
-//		if(!empty($params['id']))
-//		{
-//			$this->model->logOut($params['id']);
-//		}
-//	}
-
-	private function generateHash($length=10)
-    {
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRQSTUVWXYZ0123456789";
-        $code = "";
-        $clen = strlen($chars) - 1;
-        while (strlen($code) < $length)
-        {
-            $code .= $chars[mt_rand(0,$clen)];
-        }
-        return $code;
-    }
 
 }

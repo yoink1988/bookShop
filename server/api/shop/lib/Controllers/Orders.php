@@ -16,16 +16,7 @@ class Orders
 
     public function getOrders($params = null)
     {
-        if($res = $this->model->getOrders($params))
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse($res);			
-		}
-		else
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse('Not Found');
-		}
+        return $this->model->getOrders($params);
     }
 
     public function putOrders($params)
@@ -35,49 +26,42 @@ class Orders
 			$id =  $params['id'];
 			unset($params['id']);
 
-			if($this->model->changeStatus($id, $params))
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('Updated');
-			}
+			return $this->model->changeStatus($id, $params);
 		}
+		return false;
     }
 
-	public function postOrders($params)
+	public function postOrders(array $params)
 	{
 		if(count($params) == 2)
 		{
 			$orderParams = array_shift($params);
-			$orderInfoParams = array_shift($params);
-//			print_r($orderInfoParams);
-//			exit();
 			if($id = $this->model->addOrder($orderParams))
 			{
-
-				$err=0;
-				foreach($orderInfoParams as $row)
-				{
-					$row['id'] = $id;
-					if(!$this->model->addOrderInfo($row))
-					{
-						$err++;
-					}
-				}
-				if($err == 0 )
-				{
-					\Utils\Response::SuccessResponse(200);
-					\Utils\Response::doResponse('Order Added');
-				}
-
+				$orderInfoParams = array_shift($params);
+				return $this->addOrderInfo($orderInfoParams, $id);
 			}
-			else
-			{
-				throw new \Exception('Ne udalos, poprobuite pozje',403);
-			}
-
-//			print_r($orderParams);
-
 		}
+		return false;
+
+	}
+	
+	private function addOrderInfo(array $orderInfoParams, $id)
+	{
+		$err=0;
+		foreach($orderInfoParams as $row)
+		{
+			$row['id'] = $id;
+			if(!$this->model->addOrderInfo($row))
+			{
+				$err++;
+			}
+		}
+		if($err == 0 )
+		{
+			return true;
+		}
+		return false;
 	}
 
 }

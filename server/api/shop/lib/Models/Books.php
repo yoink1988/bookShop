@@ -55,41 +55,99 @@ class Books
 				$query->setWhere("b.status = {$status}");
 			}
 		}
-		$res = $this->db->select($query);
 
-		if($res)
+		if($res = $this->db->select($query))
 		{
 			return $this->uniq($res);
 		}
-		else
-		{
-			return 'no books found';
-		}
 
+		return false;
 	}
 	
 	public function addBook($params)
 	{
+		if(!\Utils\Validator::validBookName($params['book']['title']))
+		{
+			return 'Check Title field';
+		}
+		if(!\Utils\Validator::validDescript($params['book']['description']))
+		{
+			return 'Check Description field';
+		}
+		if(!\Utils\Validator::validPrice($params['book']['price']))
+		{
+			return 'Check Price field';
+		}
+		if(!\Utils\Validator::validDiscount($params['book']['discount']))
+		{
+			return 'Check Discount field';
+		}
+
 		$query  = \database\QInsert::getInstance()->setTable('books')
-												->setParams($params);
+												->setParams($params['book']);
 		if($this->db->insert($query))
 		{
-			return $this->db->getLastInsertID();
+			$id = $this->db->getLastInsertID();
+			if($this->appendAuthors($params['authors'], $id) && $this->appendGenres($params['genres'], $id))
+			{
+				return true;
+			}
+			return false;
 		}
-		return false;
-
 	}
 
-
-	public function addAuthLink(array $params)
+	private function appendAuthors(array $authorIds, $bId)
 	{
+		if(empty($authorIds))
+		{
+			return true;
+		}
+		$err = 0;
+		foreach ($authorIds as $aId)
+		{
+			if(!$this->addAuthLink(array('id_book' => $bId, 'id_author' => $aId)))
+			{
+				$err++;
+			}
+		}
+		if($err == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private function addAuthLink(array $params)
+	{
+		
 		$q = \database\QInsert::getInstance()->setTable('book_author')
 											->setParams($params);
 
 		return $this->db->insert($q);
 	}
-	
-	public function addGenreLink(array $params)
+
+	private function appendGenres(array $gereIds, $bId)
+	{
+		if(empty($gereIds))
+		{
+			return true;
+		}
+		$err = 0;
+		foreach ($gereIds as $gId)
+		{
+			if(!$this->addGenreLink(array('id_book' => $bId, 'id_genre' => $gId)))
+			{
+				$err++;
+			}
+		}
+		if($err == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private function addGenreLink(array $params)
 	{
 		$q = \database\QInsert::getInstance()->setTable('book_genre')
 											->setParams($params);
@@ -97,13 +155,86 @@ class Books
 		return $this->db->insert($q);
 	}
 
-	public function updateBook($id, $params)
+	public function updateBook($params)
 	{
+		if(!\Utils\Validator::validBookName($params['book']['title']))
+		{
+			return 'Check Title field';
+		}
+		if(!\Utils\Validator::validDescript($params['book']['description']))
+		{
+			return 'Check Description field';
+		}
+		if(!\Utils\Validator::validPrice($params['book']['price']))
+		{
+			return 'Check Price field';
+		}
+		if(!\Utils\Validator::validDiscount($params['book']['discount']))
+		{
+			return 'Check Discount field';
+		}
+
+		$bookParams = $params['book'];
+		$id = $params['book']['id'];
+		unset($params['book']);
+		unset($bookParams['id']);
+
 		$query = \database\QUpdate::getInstance()->setTable('books')
-												->setParams($params)
+												->setParams($bookParams)
 												->setWhere("id = {$id}");
-		return $this->db->update($query);
+		if($this->db->update($query))
+		{
+			if($this->appendAuthors($params['authToAdd'], $id)
+			&& $this->appendGenres($params['genToAdd'], $id)
+			&& $this->unsetAuthors($params['authToDel'], $id)
+			&& $this->unsetGenres($params['genToDel'], $id))
+			{
+				return true;
+			}
+		}
+		return false;
     }
+
+	private function unsetAuthors(array $authorIds, $bId)
+	{
+		if(empty($authorIds))
+		{
+			return true;
+		}
+		$err = 0;
+		foreach ($authorIds as $aId)
+		{
+			if(!$this->delAuthLink($bId, $aId))
+			{
+				$err++;
+			}
+		}
+		if($err == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	private function unsetGenres(array $genreIds, $bId)
+	{
+		if(empty($genreIds))
+		{
+			return true;
+		}
+		$err = 0;
+		foreach ($genreIds as $gId)
+		{
+			if(!$this->delGenLink($bId, $gId))
+			{
+				$err++;
+			}
+		}
+		if($err == 0)
+		{
+			return true;
+		}
+		return false;
+	}
 
     public function delAuthLink($bId, $aId)
     {

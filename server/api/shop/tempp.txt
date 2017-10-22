@@ -1,6 +1,29 @@
 Array
 (
-    [name] => qwessss
-    [login] => ww@ww.ru
-    [pass] => qwe
+    [0] => Array
+        (
+            [id] => 30
+            [u_id] => 27
+            [u_login] => admin@admin.ru
+            [u_name] => Iluha Admin
+            [u_disc] => 0
+            [p_name] => Cash
+            [s_id] => 2
+            [s_name] => sent
+            [date] => 2017-10-22 00:42:53
+            [books] => Array
+                (
+                    [0] => Array
+                        (
+                            [b_id] => 5
+                            [title] => Kniga Five
+                            [price] => 112.2
+                            [count] => 12
+                            [discount] => 0
+                        )
+
+                )
+
+        )
+
 )

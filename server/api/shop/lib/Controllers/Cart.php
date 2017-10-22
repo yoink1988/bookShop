@@ -16,55 +16,30 @@ class Cart
 
 	public function postCart($params)
 	{
-		if(!empty((int)$params['count']))
+		if($this->model->isBookInCart($params['id_user'], $params['id_book']))
 		{
-			if($this->model->isBookInCart($params['id_user'], $params['id_book']))
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse('Already in Cart');
-			}
-			else
-			{
-				if($this->model->addToCart($params))
-				{
-					\Utils\Response::SuccessResponse(200);
-					\Utils\Response::doResponse('Added');
-				}
-			}
+			return 'Already in Cart';
 		}
 		else
 		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse('Count must be Numeric value');
+			if($this->model->addToCart($params))
+			{
+				return 'Added';
+			}
+				return false;
 		}
+//
+
 
 	}
 
 	public function getCart($params)
 	{
-		if(!empty((int)$params['id']))
-		{
-			if($res = $this->model->getCart($params['id']))
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse($res);
-			}
-			else
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse("Cart is empty yet");
-			}
-		}
-		else
-		{
-			throw new \Exception('400', 'Bad Request');
-		}
+		return $this->model->getCart($params['id']);
 	}
 
 	public function putCart($params)
 	{
-//		print_r($params);
-//		exit;
 		if(isset($params[0]['id_user']) && !empty($params[0]['id_user']))
 		{
 			$userId = array_shift($params)['id_user'];
@@ -89,9 +64,9 @@ class Cart
 			}
 			if($errs == 0)
 			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse("Updated");
+				return true;
 			}
+			return false;
 		}
 
 	}
@@ -100,16 +75,10 @@ class Cart
 	{
 		if(!empty((int)$params['id']))
 		{
-			if($this->model->clearCart($params))
-			{
-				\Utils\Response::SuccessResponse(200);
-				\Utils\Response::doResponse("Cleared");
-			}
+			return $this->model->clearCart($params['id']);
 		}
-		else
-		{
-			throw new \Exception('400', 'Bad Request');
-		}
+		return false;
+
 	}
 
 

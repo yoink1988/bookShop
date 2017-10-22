@@ -36,9 +36,6 @@ class RestServer
                 case 'DELETE':
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
-//                default:
-//					echo 'Bsssad Request';
-//                    return false;
             }
 		}
 		else
@@ -52,7 +49,16 @@ class RestServer
     {
         if (method_exists($class, $method))
         {
-            $res = $class->$method($param);
+            if($res = $class->$method($param))
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse($res);
+			}
+			else
+			{
+				\Utils\Response::SuccessResponse(200);
+				\Utils\Response::doResponse(false);
+			}
         }
 		else
 		{

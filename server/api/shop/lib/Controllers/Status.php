@@ -22,10 +22,6 @@ class Status
 			$id = $params['id'];
 		}
 		
-		if($res = $this->model->getStatus($id))
-		{
-			\Utils\Response::SuccessResponse(200);
-			\Utils\Response::doResponse($res);
-		}
+		return $this->model->getStatus($id);
 	}
 }

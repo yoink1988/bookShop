@@ -24,40 +24,52 @@ class Genres
 			$id = $this->db->clearString($id);
 			$query->setWhere("id = $id");
 		}
-
         return $this->db->select($query);
     }
-	public function addGenre($params)
+	public function addGenre(array $params)
 	{
-		$query = \database\QInsert::getInstance()->setTable('genres')
-												->setParams($params);
-		
-		return $this->db->insert($query);
+		if(\Utils\Validator::validGenreName($params['name']))
+		{
+			
+			$query = \database\QInsert::getInstance()->setTable('genres')
+													->setParams($params);
+
+			return $this->db->insert($query);
+		}
+		return false;
 	}
 
-	public function updateGenre($id, $params)
+	public function updateGenre(array $params)
 	{
-		$id = $this->db->clearString($id);
-		
-		$query = \database\QUpdate::getInstance()->setTable('genres')
-												->setParams($params)
-												->setWhere("id = $id");
-		return $this->db->update($query);
+		if(\Utils\Validator::validGenreName($params['name']))
+		{
+			$id = $this->db->clearString($params['id']);
+			unset($params['id']);
+			
+			$query = \database\QUpdate::getInstance()->setTable('genres')
+													->setParams($params)
+													->setWhere("id = {$id}");
+			return $this->db->update($query);
+		}
+		return false;
 	}
 	
-	public function deleteGenre($id)
+	public function deleteGenre($params)
 	{
-		$id = $this->db->clearString($id);
+		$id = $this->db->clearString($params['id']);
 
 		$query = \database\QDelete::getInstance()->setTable('genres')
-												->setWhere("id = $id");
-		return $this->db->delete($query);
+												->setWhere("id = {$id}");
+		
+		if($this->db->delete($query))
+		{
+			return $this->deleteGenreLink($id);
+		}
+		return false;
 	}
 
-	public function deleteGenreLink($id)
+	private function deleteGenreLink($id)
 	{
-		$id = $this->db->clearString($id);
-
 		$query = \database\QDelete::getInstance()->setTable('book_genre')
 												->setWhere("id_genre = {$id}");
 		return $this->db->delete($query);
