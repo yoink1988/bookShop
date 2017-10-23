@@ -27,16 +27,28 @@ class Authors
 
     public function postAuthors($params)
     {
-		return $this->model->addAuthor($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->addAuthor($params);
+		}
+		throw new \Exception(403);
     }
 
 	public function putAuthors($params)
 	{
-		return $this->model->updateAuthor($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->updateAuthor($params);
+		}
+		throw new \Exception(403);
 	}
 	
 	public function deleteAuthors($params)
 	{
-		return $this->model->deleteAuthor($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->deleteAuthor($params);
+		}
+		throw new \Exception(403);
 	}
 }

@@ -33,7 +33,11 @@ class Users
 
     public function putUsers($params)
     {
-		return $this->model->updateUser($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->updateUser($params);
+		}
+		throw new \Exception(403);
     }
 
 	

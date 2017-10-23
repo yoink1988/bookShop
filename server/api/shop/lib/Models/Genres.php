@@ -30,13 +30,25 @@ class Genres
 	{
 		if(\Utils\Validator::validGenreName($params['name']))
 		{
-			
-			$query = \database\QInsert::getInstance()->setTable('genres')
-													->setParams($params);
+			if(!$this->isGenreExists($params['name']))
+			{
+				$query = \database\QInsert::getInstance()->setTable('genres')
+														->setParams($params);
 
-			return $this->db->insert($query);
+				return $this->db->insert($query);
+			}
 		}
 		return false;
+	}
+
+	private function isGenreExists($name)
+	{
+		$name = $this->db->clearString($name);
+		$q = \database\QSelect::getInstance()->setColumns('name')
+											->setTable('genres')
+											->setWhere("name = {$name}");
+
+		return $this->db->select($q);
 	}
 
 	public function updateGenre(array $params)

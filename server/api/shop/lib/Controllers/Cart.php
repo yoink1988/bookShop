@@ -28,9 +28,6 @@ class Cart
 			}
 				return false;
 		}
-//
-
-
 	}
 
 	public function getCart($params)

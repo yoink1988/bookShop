@@ -23,24 +23,19 @@ class RestServer
 			switch ($this->reqMeth)
             {
                 case 'GET':
+                case 'DELETE':
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
                 case 'POST':
-					$this->args = $this->getArgs();
-                    $this->execMethod($controller, $this->func, $this->args);
-                    break;
                 case 'PUT':
 					$this->args = $this->getArgs();
-                    $this->execMethod($controller, $this->func, $this->args);
-                    break;
-                case 'DELETE':
                     $this->execMethod($controller, $this->func, $this->args);
                     break;
             }
 		}
 		else
 		{
-			throw new Exception($this->class);
+			throw new \Exception('405');
 		}
 
 	}
@@ -62,7 +57,7 @@ class RestServer
         }
 		else
 		{
-			throw new Exception('no func','405');
+			throw new \Exception('405');
 		}
 	}
 
@@ -101,7 +96,7 @@ class RestServer
 					}
 					else
 					{
-						throw new Exception('Bad REquest');
+						throw new \Exception(400);
 					}
 				}
 			}
@@ -111,8 +106,4 @@ class RestServer
     {
 		return json_decode(file_get_contents("php://input"), true);
     }
-//	private function getPutArgs()
-//    {
-//        return json_decode(file_get_contents("php://input"), true);
-//    }
 }

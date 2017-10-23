@@ -8,7 +8,9 @@ namespace Utils;
  */
 class Response
 {
-    public static function ErrorResponse($h,$message) {
+//    public static function ErrorResponse($h,$message)
+    public static function ErrorResponse($h)
+	{
         $header = array(
             400 => "HTTP/1.0 400 Bad Request",
             401 => "HTTP/1.0 401 Unauthorized",
@@ -26,7 +28,7 @@ class Response
             505 => "HTTP Version Not Supported"
         );
 		header($header[$h]);
-		print_r($message);
+//		print_r($message);
     }
 
     public static function SuccessResponse($h) {
@@ -39,7 +41,6 @@ class Response
             205 => "HTTP/1.0 205 Reset Content"
         );
 		header($header[$h]);
-//		file_put_contents('tempp.txt', print_r($header[$h], true));
     }
 
 	public static function doResponse($data)

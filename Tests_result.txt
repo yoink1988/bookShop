@@ -1,0 +1,10 @@
+
+
+PHPUnit 3.7.21 by Sebastian Bergmann.
+
+................................................................. 65 / 84 ( 77%)
+...................
+
+Time: 4 seconds, Memory: 3.00Mb
+
+OK (84 tests, 93 assertions)

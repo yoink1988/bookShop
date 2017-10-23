@@ -16,19 +16,24 @@ class Orders
 
     public function getOrders($params = null)
     {
+
         return $this->model->getOrders($params);
     }
 
     public function putOrders($params)
     {
-		if((!empty($params['id'])) && (!empty($params['id_status'])))
+		if(\Models\Auth::isAdmin())
 		{
-			$id =  $params['id'];
-			unset($params['id']);
+			if((!empty($params['id'])) && (!empty($params['id_status'])))
+			{
+				$id =  $params['id'];
+				unset($params['id']);
 
-			return $this->model->changeStatus($id, $params);
+				return $this->model->changeStatus($id, $params);
+			}
+			return false;
 		}
-		return false;
+		throw new \Exception(403);
     }
 
 	public function postOrders(array $params)

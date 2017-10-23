@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Окт 18 2017 г., 16:54
+-- Время создания: Окт 23 2017 г., 15:00
 -- Версия сервера: 5.6.16
 -- Версия PHP: 5.5.11
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `authors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Дамп данных таблицы `authors`
@@ -57,20 +57,25 @@ CREATE TABLE IF NOT EXISTS `books` (
   `discount` float NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Дамп данных таблицы `books`
 --
 
 INSERT INTO `books` (`id`, `title`, `description`, `price`, `discount`, `status`) VALUES
-(1, 'Kniga1', 'Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads \r\n', 120.3, 5, 1),
-(2, 'Kniga Dva', 'Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads ', 152.1, 0, 1),
+(1, 'Kniga1', 'dddddddddddddddddddddddd\n', 120.3, 5, 0),
+(2, 'Kniga Dva', 'Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads ', 152.1, 0, 0),
 (3, 'Book Three', 'Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdf', 99.99, 0, 0),
 (4, 'Book CHETIRE', 'zZZZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdf', 121.2, 15, 1),
 (5, 'Kniga Five', 'zZZsZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdfzZZsZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdfzZZsZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdf', 112.2, 0, 1),
-(6, 'qqqqqqqqqqqq', 'qqqqqqqqqqqqqqqqqqq', 111, 5, 1),
-(7, 'zzzzzzzzz', 'zzzzzzzzzzzzzzzzzzzz', 333, 22, 1);
+(6, 'qqqqqqqqqqqq', 'zzzzzzzzzz', 111, 5, 1),
+(7, 'xxxxxxxxxx', 'vvvvvvvvvvvvvvvvvvvvvvv', 3232.22, 11, 1),
+(8, 'Kniga', 'цуцйувй йцйцв йцв йцвйцвй цвйц в', 123, 12, 0),
+(9, 'dddd', 'ewqeqwe', 21.22, 1, 0),
+(10, 'ssssssss', 'sssssssss', 12.22, 2, 0),
+(11, 'cccccccc', 'zzzzzzzzzzzzzzzzzz', 12.22, 2, 0),
+(12, 'qweqwe', 'qweqwewqeqweqwe', 12.22, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -107,14 +112,24 @@ INSERT INTO `book_author` (`id_book`, `id_author`) VALUES
 (3, 3),
 (4, 2),
 (5, 1),
-(1, 2),
 (2, 5),
 (3, 1),
 (3, 2),
 (6, 1),
 (6, 4),
-(7, 4),
-(7, 5);
+(7, 1),
+(1, 1),
+(1, 4),
+(1, 5),
+(8, 3),
+(9, 2),
+(9, 3),
+(10, 3),
+(11, 1),
+(11, 2),
+(11, 3),
+(12, 1),
+(12, 2);
 
 -- --------------------------------------------------------
 
@@ -133,7 +148,6 @@ CREATE TABLE IF NOT EXISTS `book_genre` (
 
 INSERT INTO `book_genre` (`id_book`, `id_genre`) VALUES
 (1, 1),
-(1, 2),
 (2, 3),
 (3, 3),
 (4, 2),
@@ -144,7 +158,15 @@ INSERT INTO `book_genre` (`id_book`, `id_genre`) VALUES
 (6, 1),
 (6, 2),
 (7, 3),
-(7, 4);
+(1, 3),
+(8, 3),
+(9, 2),
+(9, 3),
+(10, 2),
+(11, 2),
+(11, 3),
+(12, 1),
+(12, 2);
 
 -- --------------------------------------------------------
 
@@ -158,13 +180,6 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `count` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `cart`
---
-
-INSERT INTO `cart` (`id_user`, `id_book`, `count`) VALUES
-(14, 4, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -175,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `genres` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Дамп данных таблицы `genres`
@@ -206,20 +221,12 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
 --
 
 INSERT INTO `orderinfo` (`id`, `id_book`, `count`, `price`, `disc_book`) VALUES
-(4, 1, 3, 120.3, 5),
-(4, 2, 12, 152.1, 0),
-(4, 4, 5, 121.2, 15),
-(5, 1, 3, 120.3, 5),
-(5, 2, 12, 152.1, 0),
-(5, 4, 5, 121.2, 15),
-(5, 5, 5, 112.2, 0),
-(6, 1, 3, 120.3, 5),
-(6, 2, 12, 152.1, 0),
-(6, 4, 5, 121.2, 15),
-(6, 5, 5, 112.2, 0),
-(7, 3, 3, 99.99, 0),
-(8, 2, 3, 152.1, 0),
-(9, 1, 3, 120.3, 5);
+(32, 2, 2, 152.1, 0),
+(32, 6, 5, 111, 5),
+(33, 2, 7, 152.1, 0),
+(34, 5, 3, 112.2, 0),
+(34, 2, 5, 152.1, 0),
+(35, 4, 9, 121.2, 15);
 
 -- --------------------------------------------------------
 
@@ -235,19 +242,17 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `date` datetime NOT NULL,
   `disc_user` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 --
 -- Дамп данных таблицы `orders`
 --
 
 INSERT INTO `orders` (`id`, `id_user`, `id_payment`, `id_status`, `date`, `disc_user`) VALUES
-(4, 14, 1, 1, '2017-10-16 11:46:49', 0),
-(5, 14, 2, 1, '2017-10-16 12:06:52', 0),
-(6, 14, 2, 1, '2017-10-16 12:07:04', 0),
-(7, 14, 2, 1, '2017-10-16 12:07:40', 0),
-(8, 14, 3, 1, '2017-10-16 12:08:32', 0),
-(9, 14, 3, 1, '2017-10-16 12:10:26', 0);
+(32, 28, 3, 2, '2017-10-22 12:35:34', 0),
+(33, 27, 3, 2, '2017-10-22 13:07:45', 0),
+(34, 27, 3, 2, '2017-10-23 10:48:21', 0),
+(35, 27, 3, 1, '2017-10-23 13:24:03', 0);
 
 -- --------------------------------------------------------
 
@@ -308,16 +313,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` varchar(255) NOT NULL,
   `hash` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `login`, `pass`, `discount`, `status`, `role`, `hash`) VALUES
-(11, 'aa', 'aa@aa.aa', '4124bc0a9335c27f086f24ba207a4912', 0, 1, 'user', 'BIgujN1bJx'),
-(14, 'ss', 'ss@ss.ss', '3691308f2a4c2f6983f2880d32e29c84', 0, 1, 'user', 'zt9O9VzSdY'),
-(15, 'ADMIN', 'zz@zz.zz', '25ed1bcb423b0b7200f485fc5ff71c8e', 0, 1, 'admin', 'Q1Q3NEArKD');
+(27, 'Iluha Admin', 'admin@admin.ru', '95d53bf24b4c267e64fa593e5d543780', 0, 1, 'admin', 'fWD8SfXE2h'),
+(28, 'zzzzzzz', 'qweqwe@qwe.qwe', '95d53bf24b4c267e64fa593e5d543780', 0, 1, 'user', 'KujkebmPwF'),
+(29, 'Userok', 'userok@mail.ru', '95d53bf24b4c267e64fa593e5d543780', 22, 1, 'user', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -14,8 +14,11 @@ class Auth
         $this->model = new \Models\Auth();
 	}
 
-	public function getAuth($params)
+	public function getAuth()
 	{
+		$params = array();
+		$params['id'] = $_SERVER['PHP_AUTH_USER'];
+		$params['hash'] = $_SERVER['PHP_AUTH_PW'];
 		return $this->model->checkAuth($params);
 	}
 

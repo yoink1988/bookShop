@@ -81,7 +81,7 @@ class Validator
 	
 	public static function validDescript($text)
 	{
-		if(mb_strlen($text) < 300)
+		if(mb_strlen($text) < 300 && mb_strlen($text) > 5)
 		{
 			return true;
 		}

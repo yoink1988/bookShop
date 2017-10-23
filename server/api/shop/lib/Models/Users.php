@@ -16,7 +16,7 @@ class Users
     public function getUsers($id = null)
     {
         $query = \database\QSelect::getInstance()->setColumns('id, name, login,'.
-                                                'discount, status, role')
+                                                'discount, status, role, hash')
                                                 ->setTable('users');
 		if($id)
 		{

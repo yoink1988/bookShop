@@ -2,7 +2,7 @@
 include_once 'lib/config.php';
 include_once 'lib/functions.php';
 
-
+spl_autoload_register('autoload');
 
 try{
 	header('Access-Control-Allow-Origin: *');
@@ -23,12 +23,15 @@ catch (\Exception $e)
 {
 	if(RUN_MODE == MODE_LIVE)
 	{
-		echo $e->getMessage();
+		\Utils\Response::ErrorResponse($e->getMessage());
+//		echo $e->getMessage();
 	}
 	else
 	{
-			echo $e->getMessage().'<br>';
-			echo $e->getTraceAsString();
+//		\Utils\Response::SuccessResponse(200);
+//		\Utils\Response::doResponse($e->getMessage());
+		echo $e->getMessage().'<br>';
+		echo $e->getTraceAsString();
 	}
 
 }

@@ -34,9 +34,6 @@ class Database
 	 */
 	public function select(\database\QSelect $query)
 	{
-//		var_dump($query->getQueryString());
-//		exit();
-		
 		if(!$stmt = $this->pdo->query($query->getQueryString()))
 		{
 			echo $this->getError();
@@ -55,8 +52,6 @@ class Database
 	
 	public function insert(\database\QInsert $query)
 	{
-//				var_dump($query->getQueryString());
-//				exit();
 		$res = $this->pdo->exec($query->getQueryString());
 		return $res !== false;
 	}
@@ -74,8 +69,6 @@ class Database
 	 */
 	public function update(\database\QUpdate $query)
 	{
-//		var_dump($query->getQueryString());
-//		exit();
 		$res = $this->pdo->exec($query->getQueryString());
 		return $res !== false;
 	}
@@ -88,7 +81,6 @@ class Database
 
 		if ($errInfo[2])
 		{
-//			var_dump($errInfo);
 			return "$errInfo[2]";
 		}
 		return '';
@@ -97,7 +89,6 @@ class Database
 	/**
 	 *
 	 * @param  $str
-	 * @return $str
 	 */
     public function clearString($str)
     {

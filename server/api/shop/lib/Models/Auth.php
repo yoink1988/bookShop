@@ -67,19 +67,19 @@ class Auth
 
 		if($res = $this->db->select($q))
 		{
-			return $this->getUserData($params['id']);
+			return true;
 		}
 		return false;
 	}
 
 
-	public function getUserData($id)
-	{
-		$q = \database\QSelect::getInstance()->setTable('users')->setColumns('id, name, role, discount, hash')
-											->setWhere("id = {$this->db->clearString($id)}");
-
-		return $this->db->select($q);
-	}
+//	private function getUserData($id)
+//	{
+//		$q = \database\QSelect::getInstance()->setTable('users')->setColumns('id, name, role, discount, hash')
+//											->setWhere("id = {$this->db->clearString($id)}");
+//
+//		return $this->db->select($q);
+//	}
 
 	private function generateHash($length=10)
     {
@@ -92,5 +92,22 @@ class Auth
         }
         return $code;
     }
+
+	public static function isAdmin()
+	{
+									
+		$db = \database\Database::getInstance();
+
+		$id = $db->clearString($_SERVER['PHP_AUTH_USER']);
+		$hash = $db->clearString($_SERVER['PHP_AUTH_PW']);
+
+		$q = \database\QSelect::getInstance()->setTable('users')->setColumns('role')
+											->setWhere("id = {$id} and hash = {$hash} and role = 'admin'");
+		if($res = $db->select($q))
+		{
+			return true;
+		}
+		return false;
+	}
 
 }

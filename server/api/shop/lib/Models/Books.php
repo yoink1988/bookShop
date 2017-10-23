@@ -236,7 +236,7 @@ class Books
 		return false;
 	}
 
-    public function delAuthLink($bId, $aId)
+    private function delAuthLink($bId, $aId)
     {
         $bId = $this->db->clearString($bId);
         $aId = $this->db->clearString($aId);
@@ -246,7 +246,7 @@ class Books
         return $this->db->delete($query);
     }
 
-    public function delGenLink($bId, $gId)
+    private function delGenLink($bId, $gId)
     {
         $bId = $this->db->clearString($bId);
         $gId = $this->db->clearString($gId);
@@ -257,15 +257,6 @@ class Books
         return $this->db->delete($query);
     }
 
-/*    
-	public function deleteBook($id)
-	{
-		$query = \database\QDelete::getInstance()->setTable('books')
-												->setWhere("id = $id");
-		$res = $this->db->delete($query);
-		var_dump($res);
-	}
- */
 	private function uniq($res)
 	{
 		$unic = array();

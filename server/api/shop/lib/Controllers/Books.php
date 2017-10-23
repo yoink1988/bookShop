@@ -11,7 +11,6 @@ class Books
 	public function __construct()
 	{
 		$this->model = new \Models\Books();
-
 	}
 
 	public function getBooks($params=null)
@@ -25,19 +24,32 @@ class Books
 	
 	public function postBooks(array $params)
 	{
-		return $this->model->addBook($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->addBook($params);
+		}
+		throw new \Exception(403);
 	}
 
 	public function putBooks($params)
 	{
-        return $this->model->updateBook($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->updateBook($params);
+		}
+		throw new \Exception(403);
 	}
+
 	public function deleteBooks($params)
 	{
-		if(!empty($params['id']))
+		if(\Models\Auth::isAdmin())
 		{
-			$id = $params['id'];
-			$this->model->deleteBook($id);
+			if(!empty($params['id']))
+			{
+				$id = $params['id'];
+				$this->model->deleteBook($id);
+			}
 		}
+		throw new \Exception(403);
 	}
 }

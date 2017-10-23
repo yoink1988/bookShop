@@ -1,6 +1,6 @@
 <?php
 
-function __autoload($className)
+function autoload($className)
 {
 	$className = ROOT_DIR . '/' . str_replace('\\', '/', $className) . '.php';
 

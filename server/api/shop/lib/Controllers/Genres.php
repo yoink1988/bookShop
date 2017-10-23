@@ -27,16 +27,28 @@ class Genres
 
     public function postGenres($params)
     {
-		return $this->model->addGenre($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->addGenre($params);
+		}
+		throw new \Exception(403);
     }
 
 	public function putGenres($params)
 	{
-		return $this->model->updateGenre($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->updateGenre($params);
+		}
+		throw new \Exception(403);
 	}
 	
 	public function deleteGenres($params)
 	{
-		return $this->model->deleteGenre($params);
+		if(\Models\Auth::isAdmin())
+		{
+			return $this->model->deleteGenre($params);
+		}
+		throw new \Exception(403);		
 	}
 }
