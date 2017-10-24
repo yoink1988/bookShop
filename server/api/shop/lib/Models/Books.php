@@ -82,7 +82,7 @@ class Books
 		{
 			return 'Check Discount field';
 		}
-
+		$params['book']['description'] = addslashes($params['book']['description']);
 		$query  = \database\QInsert::getInstance()->setTable('books')
 												->setParams($params['book']);
 		if($this->db->insert($query))
@@ -175,6 +175,7 @@ class Books
 		}
 
 		$bookParams = $params['book'];
+		$bookParams['description'] = addslashes($bookParams['description']);
 		$id = $params['book']['id'];
 		unset($params['book']);
 		unset($bookParams['id']);

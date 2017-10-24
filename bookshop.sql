@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Окт 23 2017 г., 15:00
+-- Время создания: Окт 24 2017 г., 23:43
 -- Версия сервера: 5.6.16
 -- Версия PHP: 5.5.11
 
@@ -30,18 +30,19 @@ CREATE TABLE IF NOT EXISTS `authors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Дамп данных таблицы `authors`
 --
 
 INSERT INTO `authors` (`id`, `name`) VALUES
-(1, 'Pushkin'),
-(2, 'Tolstoy'),
-(3, 'Shevchenko'),
-(4, 'Lermontov'),
-(5, 'avtor');
+(1, 'Julia Donaldson'),
+(2, 'Kathy Reichs'),
+(3, 'Ken Follett'),
+(4, 'Lee Child'),
+(5, 'Lemony Snicket'),
+(6, 'Lewis Carroll');
 
 -- --------------------------------------------------------
 
@@ -57,25 +58,18 @@ CREATE TABLE IF NOT EXISTS `books` (
   `discount` float NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Дамп данных таблицы `books`
 --
 
 INSERT INTO `books` (`id`, `title`, `description`, `price`, `discount`, `status`) VALUES
-(1, 'Kniga1', 'dddddddddddddddddddddddd\n', 120.3, 5, 0),
-(2, 'Kniga Dva', 'Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd asd asd ads ', 152.1, 0, 0),
-(3, 'Book Three', 'Opisanie knigi bla bla bla. asdsdadadd ad asdsdsdsda dsa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdf', 99.99, 0, 0),
-(4, 'Book CHETIRE', 'zZZZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdf', 121.2, 15, 1),
-(5, 'Kniga Five', 'zZZsZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdfzZZsZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdfzZZsZZZZZZZZZa dasd ad a.dasddasd ad asd  fsdfdsfsdfsd.fdsffsdf.dsfdsfsdfdsf.sdfsdfsdfsdfsdfs.dfsdf', 112.2, 0, 1),
-(6, 'qqqqqqqqqqqq', 'zzzzzzzzzz', 111, 5, 1),
-(7, 'xxxxxxxxxx', 'vvvvvvvvvvvvvvvvvvvvvvv', 3232.22, 11, 1),
-(8, 'Kniga', 'цуцйувй йцйцв йцв йцвйцвй цвйц в', 123, 12, 0),
-(9, 'dddd', 'ewqeqwe', 21.22, 1, 0),
-(10, 'ssssssss', 'sssssssss', 12.22, 2, 0),
-(11, 'cccccccc', 'zzzzzzzzzzzzzzzzzz', 12.22, 2, 0),
-(12, 'qweqwe', 'qweqwewqeqweqwe', 12.22, 2, 0);
+(1, 'Harry Potter and the Prisoner of Azkaban', 'Celebrate 20 years of Harry Potter magic! An extraordinary creative achievement by an extraordinary talent, Jim Kay''s inspired reimagining of J.K. Rowling''s classic series has captured a devoted following worldwide. ', 20.25, 5, 1),
+(2, 'Ready Player One', 'SOON TO BE A MAJOR MOTION PICTURE DIRECTED BY STEVEN SPIELBERG It''s the year 2044, and the real world has become an ugly place. We''re out of oil. We''ve wrecked the climate. Famine, poverty, and disease are widespread. ', 12.65, 20, 1),
+(3, 'Never Let Me Go', 'The top ten bestseller from the Nobel Prize-winning author of The Remains of the DayShortlisted for the Man Booker PrizeIn one of the most acclaimed novels of recent years, Kazuo Ishiguro imagines the lives of a group of students growing up in a darkly skewed version of contemporary England. ', 55.25, 0, 1),
+(4, 'The Betrayed Fiancee', 'Join New York Times bestselling author Wanda E. Brunstetter along with Jean Brunstetter in Holmes County for a dramatic new 6-part serial novel. In Part 3, The Betrayed Fiancee, Kristi Palmer thought Joel Byler was the man she would marry, until she suddenly learns he has been hiding a lot from her. ', 22.44, 22, 1),
+(5, 'The Missing Will', 'Join New York Times bestselling author Wanda E. Brunstetter along with Jean Brunstetter in Holmes County for a dramatic new 6-part serial novel. In Part 4, The Missing Will, the Byler family is on a hunt for the father''s will while relations continue to deteriorate among the siblings and between Joel and his fiancee. ', 45, 15, 0);
 
 -- --------------------------------------------------------
 
@@ -108,28 +102,17 @@ CREATE TABLE IF NOT EXISTS `book_author` (
 --
 
 INSERT INTO `book_author` (`id_book`, `id_author`) VALUES
-(2, 3),
-(3, 3),
-(4, 2),
-(5, 1),
+(1, 2),
+(1, 3),
 (2, 5),
+(2, 6),
 (3, 1),
-(3, 2),
-(6, 1),
-(6, 4),
-(7, 1),
-(1, 1),
-(1, 4),
-(1, 5),
-(8, 3),
-(9, 2),
-(9, 3),
-(10, 3),
-(11, 1),
-(11, 2),
-(11, 3),
-(12, 1),
-(12, 2);
+(3, 4),
+(4, 4),
+(4, 5),
+(5, 4),
+(5, 5),
+(5, 6);
 
 -- --------------------------------------------------------
 
@@ -147,26 +130,17 @@ CREATE TABLE IF NOT EXISTS `book_genre` (
 --
 
 INSERT INTO `book_genre` (`id_book`, `id_genre`) VALUES
-(1, 1),
-(2, 3),
-(3, 3),
-(4, 2),
-(4, 4),
-(5, 2),
-(5, 1),
+(1, 5),
+(1, 6),
+(2, 5),
+(2, 6),
 (3, 1),
-(6, 1),
-(6, 2),
-(7, 3),
-(1, 3),
-(8, 3),
-(9, 2),
-(9, 3),
-(10, 2),
-(11, 2),
-(11, 3),
-(12, 1),
-(12, 2);
+(3, 4),
+(4, 3),
+(4, 4),
+(4, 5),
+(5, 1),
+(5, 3);
 
 -- --------------------------------------------------------
 
@@ -197,10 +171,12 @@ CREATE TABLE IF NOT EXISTS `genres` (
 --
 
 INSERT INTO `genres` (`id`, `name`) VALUES
-(1, 'Fantastika'),
-(2, 'Nauchnaya'),
-(3, 'Detektiv'),
-(4, 'Horror');
+(1, 'Romance'),
+(2, 'Fiction'),
+(3, 'Horror'),
+(4, 'Fantasy'),
+(5, 'Detective'),
+(6, 'Scientic');
 
 -- --------------------------------------------------------
 
@@ -221,12 +197,33 @@ CREATE TABLE IF NOT EXISTS `orderinfo` (
 --
 
 INSERT INTO `orderinfo` (`id`, `id_book`, `count`, `price`, `disc_book`) VALUES
-(32, 2, 2, 152.1, 0),
-(32, 6, 5, 111, 5),
-(33, 2, 7, 152.1, 0),
-(34, 5, 3, 112.2, 0),
-(34, 2, 5, 152.1, 0),
-(35, 4, 9, 121.2, 15);
+(1, 1, 4, 20.25, 5),
+(1, 2, 4, 12.65, 20),
+(1, 3, 4, 55.25, 0),
+(1, 4, 2, 22.44, 22),
+(2, 2, 4, 12.65, 20),
+(2, 3, 2, 55.25, 0),
+(3, 3, 2, 55.25, 0),
+(3, 4, 2, 22.44, 22),
+(3, 1, 2, 20.25, 5),
+(4, 1, 4, 20.25, 5),
+(4, 3, 2, 55.25, 0),
+(5, 4, 4, 22.44, 22),
+(5, 1, 2, 20.25, 5),
+(6, 1, 2, 20.25, 5),
+(6, 2, 4, 12.65, 20),
+(6, 4, 4, 22.44, 22),
+(7, 2, 3, 12.65, 20),
+(7, 4, 3, 22.44, 22),
+(8, 3, 4, 55.25, 0),
+(8, 4, 4, 22.44, 22),
+(9, 1, 3, 20.25, 5),
+(9, 4, 5, 22.44, 22),
+(10, 4, 4, 22.44, 22),
+(10, 1, 2, 20.25, 5),
+(10, 3, 2, 55.25, 0),
+(11, 3, 4, 55.25, 0),
+(11, 1, 5, 20.25, 5);
 
 -- --------------------------------------------------------
 
@@ -242,17 +239,24 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `date` datetime NOT NULL,
   `disc_user` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Дамп данных таблицы `orders`
 --
 
 INSERT INTO `orders` (`id`, `id_user`, `id_payment`, `id_status`, `date`, `disc_user`) VALUES
-(32, 28, 3, 2, '2017-10-22 12:35:34', 0),
-(33, 27, 3, 2, '2017-10-22 13:07:45', 0),
-(34, 27, 3, 2, '2017-10-23 10:48:21', 0),
-(35, 27, 3, 1, '2017-10-23 13:24:03', 0);
+(1, 30, 3, 4, '2017-10-24 23:08:49', 0),
+(2, 30, 1, 3, '2017-10-24 23:09:42', 0),
+(3, 30, 2, 1, '2017-10-24 23:10:08', 0),
+(4, 31, 2, 4, '2017-10-24 23:14:33', 0),
+(5, 31, 3, 1, '2017-10-24 23:14:46', 0),
+(6, 31, 1, 1, '2017-10-24 23:15:06', 0),
+(7, 32, 3, 2, '2017-10-24 23:15:34', 0),
+(8, 27, 2, 1, '2017-10-24 23:20:31', 30),
+(9, 27, 2, 1, '2017-10-24 23:20:46', 30),
+(10, 32, 2, 4, '2017-10-24 23:21:49', 15),
+(11, 32, 1, 1, '2017-10-24 23:22:13', 15);
 
 -- --------------------------------------------------------
 
@@ -313,16 +317,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `role` varchar(255) NOT NULL,
   `hash` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=33 ;
 
 --
 -- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `login`, `pass`, `discount`, `status`, `role`, `hash`) VALUES
-(27, 'Iluha Admin', 'admin@admin.ru', '95d53bf24b4c267e64fa593e5d543780', 0, 1, 'admin', 'fWD8SfXE2h'),
-(28, 'zzzzzzz', 'qweqwe@qwe.qwe', '95d53bf24b4c267e64fa593e5d543780', 0, 1, 'user', 'KujkebmPwF'),
-(29, 'Userok', 'userok@mail.ru', '95d53bf24b4c267e64fa593e5d543780', 22, 1, 'user', '');
+(27, 'Iluha Admin', 'admin@mail.ru', '95d53bf24b4c267e64fa593e5d543780', 30, 1, 'admin', 'hixQNwY5zA'),
+(30, 'valera', 'valera@mail.ru', '95d53bf24b4c267e64fa593e5d543780', 5, 1, 'user', 'ZMkGDPrViX'),
+(31, 'sasha', 'sasha@mail.ru', '95d53bf24b4c267e64fa593e5d543780', 0, 1, 'user', 'K34vyAO5g4'),
+(32, 'dima', 'dima@mail.ru', '95d53bf24b4c267e64fa593e5d543780', 15, 1, 'user', 'ChaTKzyqJT');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

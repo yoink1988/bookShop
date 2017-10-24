@@ -72,7 +72,7 @@ class Validator
 	}
 	public static function validBookName($name)
 	{
-		if(!preg_match('/^[a-zA-Z][a-zA-Z\.\s]{3,40}$/', $name))
+		if(!preg_match('/^[a-zA-Z][a-zA-Z0-9\.\s\-]{3,40}$/', $name))
 		{
 			return false;
 		}
@@ -81,7 +81,7 @@ class Validator
 	
 	public static function validDescript($text)
 	{
-		if(mb_strlen($text) < 300 && mb_strlen($text) > 5)
+		if(mb_strlen($text) < 400 && mb_strlen($text) > 5)
 		{
 			return true;
 		}
